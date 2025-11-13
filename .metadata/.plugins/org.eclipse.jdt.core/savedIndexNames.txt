@@ -1,0 +1,1 @@
+INDEX VERSION 1.134+C:\dadam-backend\.metadata\.plugins\org.eclipse.jdt.core
