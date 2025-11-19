@@ -10,6 +10,8 @@ public enum ErrorCode {
     // 400 Bad Request
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
     ALREADY_ANSWERED(HttpStatus.BAD_REQUEST, "이미 답변을 작성했습니다."),
+    USER_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "이미 존재하는 사용자입니다."),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
 
     // 404 Not Found
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다."),
