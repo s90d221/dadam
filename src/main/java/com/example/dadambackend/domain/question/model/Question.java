@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,25 +13,28 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "question")
 public class Question {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 500)
-    private String content; // 질문 내용
+    private String content;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private QuestionCategory category; // 질문 카테고리 (예: TRAVEL, HOBBY)
+    private QuestionCategory category;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    // TODO: AI 질문 추천을 위한 만족도/사용 횟수 등의 필드는 추후 추가
+    @Column(nullable = false)
+    private LocalDate questionDate;
 
-    public Question(String content, QuestionCategory category) {
+    public Question(String content, QuestionCategory category, LocalDate questionDate) {
         this.content = content;
         this.category = category;
+        this.questionDate = questionDate;
         this.createdAt = LocalDateTime.now();
     }
 }
