@@ -21,11 +21,12 @@ public class AiClient {
     private static final String AI_API_URL = "https://api.openai.com/v1/chat/completions";
 
     /**
-     * GPT에게 프롬프트를 보내고,
-     * QuestionGenerationResult 형식의 JSON 문자열을 반환한다.
-     * 실패하면 fallback JSON 반환.
+     * GPT에게 system + user 프롬프트를 보내고,
+     * 응답 message.content 문자열을 그대로 반환한다.
+     * (서비스 쪽에서 이 문자열을 JSON이라고 가정하고 파싱)
+     * 실패하면 QuestionGenerationResult 형식의 fallback JSON을 반환한다.
      */
-    public String request(String prompt) {
+    public String request(String systemPrompt, String userPrompt) {
         try {
             // 1. 헤더 설정
             HttpHeaders headers = new HttpHeaders();
@@ -33,21 +34,16 @@ public class AiClient {
             headers.setBearerAuth(apiKey);
 
             // 2. 요청 바디 구성 (Chat Completions 형식)
-            OpenAiRequest body = new OpenAiRequest();
-            body.setModel("gpt-4o-mini");
-
             OpenAiMessage systemMsg = new OpenAiMessage();
             systemMsg.setRole("system");
-            systemMsg.setContent("""
-                너는 세대 간 소통을 돕는 '가족 대화 질문'만 생성하는 어시스턴트야.
-                정치, 혐오, 폭력, 선정적인 내용은 절대 포함하지 마.
-                가족이 편하게 대화할 수 있는 따뜻한 질문 한 가지만 만들어.
-                """);
+            systemMsg.setContent(systemPrompt);
 
             OpenAiMessage userMsg = new OpenAiMessage();
             userMsg.setRole("user");
-            userMsg.setContent(prompt);
+            userMsg.setContent(userPrompt);
 
+            OpenAiRequest body = new OpenAiRequest();
+            body.setModel("gpt-4o-mini");
             body.setMessages(new OpenAiMessage[]{systemMsg, userMsg});
 
             HttpEntity<OpenAiRequest> entity = new HttpEntity<>(body, headers);
@@ -62,25 +58,30 @@ public class AiClient {
                 return buildFallbackJson();
             }
 
-            String generated = aiResponse.getContentText();
-            if (generated == null || generated.isBlank()) {
+            String content = aiResponse.getContentText();
+            if (content == null || content.isBlank()) {
                 System.out.println("[AiClient] GPT 내용이 비어있음, fallback 사용");
                 return buildFallbackJson();
             }
 
-            // 4. 우리 QuestionGenerationResult 형식 JSON으로 감싸서 반환
-            return """
-                {
-                  "content": "%s",
-                  "category": "MEMORY"
-                }
-                """.formatted(escapeForJson(generated));
+            // ✅ 서비스 쪽에서 이 content를 JSON이라고 가정하고 파싱함
+            return content;
 
         } catch (Exception e) {
             // 여기서 예외가 나면 항상 fallback으로 감
             System.out.println("[AiClient] GPT 호출 실패 → fallback 사용: " + e.getMessage());
             return buildFallbackJson();
         }
+    }
+
+    /**
+     * (옵션) 예전처럼 prompt 하나만 받는 버전도 유지해 둠.
+     * 공통 systemPrompt를 쓰고 싶은 경우에 사용 가능.
+     */
+    public String request(String prompt) {
+        String systemPrompt = "너는 사용자의 요청에 맞는 JSON을 생성하는 어시스턴트야. " +
+                "사용자가 요구한 형식 그대로 JSON만 출력해라.";
+        return request(systemPrompt, prompt);
     }
 
     // ================== OpenAI 요청 DTO ==================
@@ -126,6 +127,10 @@ public class AiClient {
 
     // ================== Fallback & 유틸 ==================
 
+    /**
+     * 질문 생성용 기본 fallback JSON
+     * (QuestionGenerationResult 형태와 맞춤)
+     */
     private String buildFallbackJson() {
         return """
             {
@@ -133,14 +138,5 @@ public class AiClient {
               "category": "MEMORY"
             }
             """;
-    }
-
-    private String escapeForJson(String text) {
-        if (text == null) return "";
-        return text
-                .replace("\\", "\\\\")
-                .replace("\"", "\\\"")
-                .replace("\n", " ")
-                .replace("\r", " ");
     }
 }
