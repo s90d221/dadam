@@ -1,0 +1,443 @@
+/* =====================================================
+   familyhub.components.css
+   공통 컴포넌트 스타일 (카드, 버튼, 입력, 모달, 아바타 등)
+===================================================== */
+
+/* ---------- Card 기본 ---------- */
+
+.card {
+    background: var(--fh-color-bg-elevated);
+    border-radius: var(--fh-radius-lg);
+    padding: 20px 22px;
+    border: 1px solid var(--fh-color-border-subtle);
+    box-shadow: var(--fh-shadow-soft);
+}
+
+.card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.card-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.card-subtitle {
+    font-size: 13px;
+    color: var(--fh-color-text-soft);
+}
+
+/* 큰 카드(오늘의 질문) */
+.card-hero {
+    padding: 28px 26px;
+    background: white;
+}
+
+/* 카드 두 개 나란히 */
+.card-row {
+    display: flex;
+    gap: 16px;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+    padding: 9px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--fh-radius-md);
+    transition: 0.15s ease;
+}
+
+.btn-primary {
+    background: var(--fh-color-primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a54c9;
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 1px solid var(--fh-color-border-subtle);
+}
+
+.btn-ghost:hover {
+    border-color: var(--fh-color-primary);
+}
+
+.btn-sm {
+    padding: 5px 12px;
+    font-size: 13px;
+}
+
+.ghost-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 8px;
+    border-radius: var(--fh-radius-md);
+    background: transparent;
+    font-size: 14px;
+    color: var(--fh-color-text-soft);
+    transition: 0.12s ease;
+}
+
+.ghost-icon-btn:hover {
+    background: var(--fh-color-primary-soft);
+    color: var(--fh-color-primary);
+}
+
+/* ---------- Inputs / Textarea ---------- */
+
+.input,
+.textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background: white;
+    border-radius: var(--fh-radius-md);
+    border: 1px solid var(--fh-color-border-subtle);
+    font-size: 14px;
+    transition: border 0.15s ease;
+}
+
+.input:focus,
+.textarea:focus {
+    border-color: var(--fh-color-primary);
+}
+
+.textarea-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* 텍스트 입력창 아래 영역 */
+.textarea-footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 6px;
+}
+
+.length-hint {
+    font-size: 12px;
+    color: var(--fh-color-text-soft);
+}
+
+/* ---------- Emoji Chips ---------- */
+
+.emoji-row {
+    display: flex;
+    gap: 6px;
+}
+
+.emoji-chip {
+    padding: 4px 8px;
+    border-radius: var(--fh-radius-pill);
+    background: var(--fh-color-primary-soft);
+    transition: 0.15s ease;
+}
+
+.emoji-chip:hover {
+    background: var(--fh-color-primary-soft-strong);
+}
+
+/* ---------- Pills & Chips ---------- */
+
+.pill {
+    padding: 4px 10px;
+    border-radius: var(--fh-radius-pill);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.pill-soft {
+    background: var(--fh-color-primary-soft);
+    color: var(--fh-color-primary);
+}
+
+.chip {
+    padding: 4px 9px;
+    font-size: 12px;
+    border-radius: var(--fh-radius-pill);
+}
+
+.chip-soft {
+    background: var(--fh-color-primary-soft);
+    color: var(--fh-color-primary);
+}
+
+.chip-outline {
+    border: 1px solid var(--fh-color-border-subtle);
+    color: var(--fh-color-text-soft);
+}
+
+/* ---------- Avatar ---------- */
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--fh-radius-pill);
+    background: var(--fh-color-primary-soft);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--fh-color-primary);
+}
+
+.avatar-sm {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+}
+
+.avatar-md {
+    width: 40px;
+    height: 40px;
+}
+
+.avatar-lg {
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+}
+
+.avatar-soft {
+    background: var(--fh-color-primary-soft);
+}
+
+.avatar-accent {
+    background: var(--fh-color-accent-soft);
+    color: var(--fh-color-accent);
+}
+
+.avatar-dashed {
+    border: 2px dashed var(--fh-color-border-subtle);
+    background: transparent;
+    color: var(--fh-color-text-softer);
+}
+
+/* ---------- Modals ---------- */
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal-backdrop.is-active {
+    display: flex;
+}
+
+.modal {
+    background: white;
+    border-radius: var(--fh-radius-lg);
+    width: 100%;
+    max-width: 520px;
+    box-shadow: var(--fh-shadow-medium);
+    animation: modal-fade 0.25s ease;
+}
+
+.modal-sm {
+    max-width: 380px;
+}
+
+.modal-header {
+    padding: 20px 22px 14px;
+    border-bottom: 1px solid var(--fh-color-border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-title {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.modal-body {
+    padding: 20px 22px;
+}
+
+.modal-footer {
+    margin-top: 16px;
+    padding: 15px 22px;
+    border-top: 1px solid var(--fh-color-border-subtle);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* 모달 등장 애니메이션 */
+@keyframes modal-fade {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ---------- Comment Item ---------- */
+
+.comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.comment-item {
+    display: flex;
+    gap: 10px;
+}
+
+.comment-bubble {
+    padding: 10px 14px;
+    background: var(--fh-color-primary-soft);
+    border-radius: var(--fh-radius-md);
+    max-width: 80%;
+}
+
+/* ---------- Answer List ---------- */
+
+.answer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.answer-item {
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--fh-color-border-subtle);
+}
+
+.answer-main {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+    width: 100%;
+}
+
+.answer-meta {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.meta-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    color: var(--fh-color-text-soft);
+    font-size: 13px;
+}
+
+.meta-count {
+    font-size: 13px;
+}
+
+/* ---------- Family Grid ---------- */
+
+.family-grid {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
+    gap: 14px;
+}
+
+.family-cell {
+    text-align: center;
+    padding: 12px 6px;
+    border-radius: var(--fh-radius-md);
+    background: var(--fh-color-bg-elevated);
+    border: 1px solid var(--fh-color-border-subtle);
+    transition: 0.18s ease;
+}
+
+.family-cell:hover {
+    border-color: var(--fh-color-primary);
+}
+
+.family-name {
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.family-role-badge {
+    display: inline-block;
+    margin-top: 3px;
+    font-size: 11px;
+    color: var(--fh-color-text-softer);
+}
+
+.family-add {
+    background: var(--fh-color-primary-soft);
+}
+
+/* ---------- Event List ---------- */
+
+.event-list {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.event-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--fh-radius-md);
+    border: 1px solid var(--fh-color-border-subtle);
+    background: var(--fh-color-bg-elevated);
+}
+
+.event-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+}
+
+.event-type-dinner {
+    background: var(--fh-color-accent);
+}
+
+.event-type-trip {
+    background: var(--fh-color-primary);
+}
+
+.event-title {
+    font-weight: 600;
+    color: var(--fh-color-text-main);
+}
+
+.event-meta {
+    font-size: 12px;
+    color: var(--fh-color-text-soft);
+}

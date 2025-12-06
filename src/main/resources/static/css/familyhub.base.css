@@ -1,0 +1,309 @@
+/* =========================================
+   familyhub.base.css
+   - Reset + 폰트 + 컬러 토큰 + 기본 타이포/유틸
+========================================= */
+
+/* ---------- Font ---------- */
+/* 필요 없으면 아래 @import는 지워도 돼! */
+@import url("https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap");
+
+/* ---------- Reset ---------- */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
+    "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+img,
+video {
+    max-width: 100%;
+    display: block;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+    border: none;
+    background: none;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul,
+ol {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* 스크린리더 전용 텍스트 */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* ---------- Design Tokens ---------- */
+
+:root {
+    /* Primary palette (포근한 보라/핑크톤) */
+    --fh-color-primary: #7367f0;
+    --fh-color-primary-soft: #f1f0ff;
+    --fh-color-primary-soft-strong: #e0ddff;
+
+    /* Accent */
+    --fh-color-accent: #ff8ba7;
+    --fh-color-accent-soft: #fff2f6;
+
+    /* Neutral */
+    --fh-color-bg: #f8fafc;
+    --fh-color-bg-elevated: #ffffff;
+    --fh-color-border-subtle: rgba(15, 23, 42, 0.08);
+    --fh-color-border-strong: rgba(15, 23, 42, 0.12);
+    --fh-color-text-main: #111827;
+    --fh-color-text-soft: #6b7280;
+    --fh-color-text-softer: #9ca3af;
+
+    /* System */
+    --fh-color-success: #22c55e;
+    --fh-color-success-soft: #ecfdf3;
+    --fh-color-danger: #ef4444;
+    --fh-color-danger-soft: #fef2f2;
+    --fh-color-warning: #f97316;
+    --fh-color-warning-soft: #fff7ed;
+
+    /* Shadow */
+    --fh-shadow-soft: 0 10px 40px rgba(15, 23, 42, 0.06);
+    --fh-shadow-medium: 0 18px 56px rgba(15, 23, 42, 0.09);
+
+    /* Radius */
+    --fh-radius-xs: 6px;
+    --fh-radius-sm: 10px;
+    --fh-radius-md: 14px;
+    --fh-radius-lg: 18px;
+    --fh-radius-xl: 22px;
+    --fh-radius-pill: 999px;
+
+    /* Layout */
+    --fh-layout-max-width: 1200px;
+    --fh-layout-padding-x: 24px;
+    --fh-layout-header-height: 64px;
+}
+
+/* 다크 테마 대응하고 싶으면 body에 theme-dark 클래스 추가해서 확장 가능 */
+body.theme-dark {
+    /* 필요 시 오버라이드 */
+}
+
+/* ---------- Body / 기본 타이포 ---------- */
+
+.fh-body {
+    min-height: 100vh;
+    background: radial-gradient(
+            circle at top left,
+            rgba(115, 103, 240, 0.07),
+            transparent 55%
+    ),
+    radial-gradient(
+            circle at bottom right,
+            rgba(255, 139, 167, 0.09),
+            transparent 55%
+    ),
+    var(--fh-color-bg);
+    color: var(--fh-color-text-main);
+}
+
+/* 앱 전체 래퍼는 layout.css에서 .app 정의 */
+
+/* 기본 제목 스타일(컴포넌트에서 재정의 가능) */
+h1,
+h2,
+h3,
+h4 {
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+p {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--fh-color-text-soft);
+}
+
+/* ---------- Utils ---------- */
+
+.text-soft {
+    color: var(--fh-color-text-soft);
+}
+
+.text-softer {
+    color: var(--fh-color-text-softer);
+}
+
+.text-accent {
+    color: var(--fh-color-accent);
+}
+
+.text-primary {
+    color: var(--fh-color-primary);
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.gap-4 {
+    gap: 4px;
+}
+
+.gap-8 {
+    gap: 8px;
+}
+
+.gap-12 {
+    gap: 12px;
+}
+
+.mt-8 {
+    margin-top: 8px;
+}
+
+.mt-12 {
+    margin-top: 12px;
+}
+
+.mt-16 {
+    margin-top: 16px;
+}
+
+/* ---------- Icon primitives (텍스트 아이콘) ---------- */
+
+.fh-icon-bell::before {
+    content: "🔔";
+}
+
+.fh-icon-bell-small::before {
+    content: "🔔";
+    font-size: 14px;
+}
+
+.fh-icon-user::before {
+    content: "👤";
+}
+
+.fh-icon-heart::before {
+    content: "❤";
+}
+
+.fh-icon-heart-small::before {
+    content: "❤";
+    font-size: 13px;
+}
+
+.fh-icon-comment::before {
+    content: "💬";
+}
+
+.fh-icon-plus::before {
+    content: "+";
+    font-weight: 700;
+}
+
+.fh-icon-calendar::before {
+    content: "📅";
+}
+
+.fh-icon-refresh::before {
+    content: "⟳";
+}
+
+.fh-icon-chevron-down::before {
+    content: "▾";
+}
+
+.fh-icon-chevron-right::before {
+    content: "›";
+}
+
+.fh-icon-chevron-left::before {
+    content: "‹";
+}
+
+.fh-icon-x::before {
+    content: "✕";
+}
+
+/* 아이콘 공통 스타일 */
+[class^="fh-icon-"],
+[class*=" fh-icon-"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* ---------- Badge / 점 표시 기본 ---------- */
+
+.badge-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: var(--fh-color-danger);
+    display: none;
+}
+
+.badge-dot.is-active {
+    display: inline-block;
+}
+
+/* 포커스 표시 (접근성) */
+:focus-visible {
+    outline: 2px solid rgba(115, 103, 240, 0.8);
+    outline-offset: 2px;
+}

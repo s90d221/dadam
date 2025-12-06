@@ -1,0 +1,979 @@
+/* ===========================
+ * familyhub.widgets.css
+ * - 가족 그리드, 퀴즈, 밸런스 게임
+ * - 질문/답변, 댓글, 캘린더, 이벤트
+ * - 알림 리스트
+ * =========================== */
+
+/* --------------------------------
+ * 가족 그리드 / 아바타
+ * -------------------------------- */
+
+.family-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-md);
+}
+
+.family-card {
+    background: var(--color-bg-soft);
+    border-radius: var(--radius-md);
+    padding: 16px 12px;
+    text-align: center;
+    border: 1px solid var(--color-border-soft);
+    box-shadow: var(--shadow-sm);
+    transition:
+            border-color var(--transition-normal),
+            box-shadow var(--transition-normal),
+            transform var(--transition-normal),
+            background-color var(--transition-normal);
+    cursor: default;
+}
+
+.family-card:hover {
+    border-color: var(--color-border-highlight);
+    background: #f8fafc;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.family-avatar-wrapper {
+    position: relative;
+    display: inline-flex;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.family-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: radial-gradient(circle at 20% 0%, #ecfdf3, #d1fae5);
+    border: 2px solid var(--color-border-soft);
+    overflow: hidden;
+    position: relative;
+
+    transition:
+            border-color var(--transition-normal),
+            box-shadow var(--transition-normal),
+            transform var(--transition-normal),
+            filter var(--transition-normal);
+}
+
+.family-card:hover .family-avatar {
+    border-color: var(--color-primary);
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.22);
+    transform: translateY(-1px) scale(1.02);
+    filter: saturate(1.05);
+}
+
+.avatar-placeholder {
+    font-size: 28px;
+    line-height: 1;
+    color: var(--color-text-secondary);
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.upload-hint {
+    position: absolute;
+    right: -4px;
+    bottom: -4px;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 12px;
+    background: #22c55e;
+    color: var(--color-text-inverse);
+    border: 2px solid #ffffff;
+
+    opacity: 0;
+    transform: translateY(2px);
+    pointer-events: none;
+    box-shadow: 0 8px 16px rgba(34, 197, 94, 0.45);
+    transition:
+            opacity var(--transition-normal),
+            transform var(--transition-normal);
+}
+
+.family-card:hover .upload-hint {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.family-name {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+}
+
+/* --------------------------------
+ * 퀴즈 영역
+ * -------------------------------- */
+
+.quiz-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.quiz-question {
+    text-align: center;
+    padding: 18px 16px;
+    background: radial-gradient(circle at top, rgba(34, 197, 94, 0.08), #f9fafb);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-soft);
+}
+
+.quiz-word {
+    font-size: 28px;
+    font-weight: var(--font-weight-extrabold);
+    color: var(--color-text-main);
+    letter-spacing: -0.04em;
+    margin-bottom: 6px;
+}
+
+.quiz-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 선택지 카드 */
+.quiz-option {
+    padding: 12px 14px;
+    background: var(--color-bg-soft);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-soft);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+
+    position: relative;
+    overflow: hidden;
+
+    transition:
+            background-color var(--transition-normal),
+            border-color var(--transition-normal),
+            color var(--transition-normal),
+            transform var(--transition-fast),
+            box-shadow var(--transition-normal);
+}
+
+/* 왼쪽 라인 효과 (hover 시만 나타남) */
+.quiz-option::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 4px;
+    border-radius: 0 999px 999px 0;
+    background: linear-gradient(180deg, #22c55e, #0ea5e9);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+            opacity var(--transition-fast),
+            transform var(--transition-fast);
+}
+
+.quiz-option:hover {
+    background: #f9fffb;
+    border-color: var(--color-border-highlight);
+    color: var(--color-text-main);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.quiz-option:hover::before {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.option-text {
+    flex: 1;
+}
+
+.option-profiles {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 작은 선택지 프로필 이미지 */
+.option-profile-img,
+.option-profile-placeholder {
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    object-fit: cover;
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-soft);
+}
+
+.option-profile-placeholder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: var(--color-text-secondary);
+}
+
+/* --------------------------------
+ * 밸런스 게임
+ * -------------------------------- */
+
+.balance-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.balance-option {
+    width: 100%;
+    padding: 18px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-soft);
+    background: var(--color-bg-soft);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    transition:
+            background-color var(--transition-normal),
+            border-color var(--transition-normal),
+            transform var(--transition-fast),
+            box-shadow var(--transition-normal),
+            color var(--transition-normal);
+}
+
+.balance-option::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(34, 197, 94, 0.1), transparent);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.balance-option:hover {
+    border-color: var(--color-border-highlight);
+    background: #f9fffb;
+    color: var(--color-text-main);
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: var(--shadow-md);
+}
+
+.balance-option:hover::before {
+    opacity: 1;
+}
+
+.balance-option .option-profiles {
+    justify-content: center;
+}
+
+.balance-vs {
+    padding: 4px 14px;
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-soft);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-secondary);
+}
+
+/* --------------------------------
+ * 질문 / 답변
+ * -------------------------------- */
+
+.question-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.question-text {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-main);
+    text-align: center;
+
+    padding: 20px 18px;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), #f9fafb);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-soft);
+}
+
+.question-feedback {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+
+    padding: 10px 14px;
+    background: var(--color-bg-soft);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.feedback-buttons {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.answer-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--space-sm);
+}
+
+/* --------------------------------
+ * 댓글 섹션
+ * -------------------------------- */
+
+.comments-section {
+    margin-top: var(--space-lg);
+}
+
+.comments-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-main);
+    margin-bottom: var(--space-md);
+}
+
+.comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+/* 댓글 카드 */
+.comment-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-md);
+
+    padding: 14px 14px;
+    background: #ecfdf3;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-soft);
+
+    transition:
+            background-color var(--transition-normal),
+            border-color var(--transition-normal),
+            transform var(--transition-fast),
+            box-shadow var(--transition-normal);
+}
+
+.comment-card:hover {
+    background: #f5fff9;
+    border-color: var(--color-border-highlight);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.comment-content {
+    flex: 1;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.comment-author {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-main);
+}
+
+.comment-time {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+.comment-text {
+    font-size: var(--font-size-md);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+}
+
+/* --------------------------------
+ * 캘린더 & 이벤트
+ * -------------------------------- */
+
+.calendar-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.calendar-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 6px;
+}
+
+/* 요일 헤더 */
+.calendar-day-header {
+    text-align: center;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    padding: 6px 0;
+}
+
+/* 추후 날짜 셀 추가하면 여기 확장 가능 */
+
+.event-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+/* 이벤트 카드 */
+.event-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+
+    padding: 14px 12px;
+    background: #ecfdf3;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-soft);
+
+    transition:
+            background-color var(--transition-normal),
+            border-color var(--transition-normal),
+            transform var(--transition-fast),
+            box-shadow var(--transition-normal);
+}
+
+.event-card:hover {
+    background: #f5fff9;
+    border-color: var(--color-border-highlight);
+    transform: translateX(4px);
+    box-shadow: var(--shadow-sm);
+}
+
+.event-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+    background: var(--color-bg-surface);
+    color: var(--color-primary-strong);
+}
+
+.event-info {
+    flex: 1;
+}
+
+.event-name {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-main);
+    margin-bottom: 2px;
+}
+
+.event-date {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+/* --------------------------------
+ * 알림 리스트
+ * -------------------------------- */
+
+.notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* 개별 알림 카드 */
+.notification-item {
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-soft);
+    border: 1px solid var(--color-border-soft);
+
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+
+    transition:
+            background-color var(--transition-normal),
+            border-color var(--transition-normal),
+            transform var(--transition-fast),
+            box-shadow var(--transition-normal),
+            opacity var(--transition-normal);
+}
+
+.notification-item:hover {
+    background: var(--color-bg-surface);
+    border-color: var(--color-border-highlight);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* 읽은 알림은 조금 더 옅게 */
+.notification-item.read {
+    opacity: 0.55;
+}
+
+.notification-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--color-bg-surface);
+    color: var(--color-primary-strong);
+}
+
+.notification-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.notification-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-main);
+    line-height: 1.45;
+}
+
+.notification-time {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+/* 알림이 없을 때 */
+.notification-empty {
+    text-align: center;
+    padding: 40px 16px;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+/* --------------------------------
+ * 반응형 조정
+ * -------------------------------- */
+
+@media (max-width: 968px) {
+    .family-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .family-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .quiz-word {
+        font-size: 22px;
+    }
+
+    .question-text {
+        font-size: var(--font-size-lg);
+        padding-inline: 14px;
+    }
+
+    .comment-card,
+    .event-card {
+        padding-inline: 12px;
+    }
+}
+
+/* 댓글 카드 하단 액션 영역 */
+.comment-footer {
+    margin-top: var(--space-xs);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.comment-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+/* =====================================================
+   familyhub.widgets.css
+   기능 위젯(질문/답변/퀴즈/밸런스/캘린더) 스타일
+===================================================== */
+
+/* -----------------------------------------------------
+   📌 오늘의 질문 (Question Hero)
+----------------------------------------------------- */
+
+.question-main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.question-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.question-tagline {
+    font-size: 13px;
+    color: var(--fh-color-text-soft);
+}
+
+.question-text {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.45;
+    padding: 10px 0;
+    color: var(--fh-color-text-main);
+}
+
+.question-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+
+/* -----------------------------------------------------
+   ✏️ 답변 목록 (Answer List)
+----------------------------------------------------- */
+
+.answer-preview {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--fh-color-text-main);
+    margin-top: 4px;
+}
+
+.answer-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.answer-time {
+    font-size: 12px;
+    color: var(--fh-color-text-soft);
+}
+
+/* -----------------------------------------------------
+   🗨 답변 자세히 보기 모달
+----------------------------------------------------- */
+
+.answer-thread-main {
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--fh-color-border-subtle);
+    margin-bottom: 16px;
+}
+
+.answer-thread-text {
+    margin-top: 10px;
+    line-height: 1.6;
+    color: var(--fh-color-text-main);
+}
+
+.comment-form {
+    margin-top: 14px;
+}
+
+.comment-input-shell {
+    display: flex;
+    gap: 8px;
+}
+
+/* -----------------------------------------------------
+   🎮 밸런스 게임
+----------------------------------------------------- */
+
+.card-balance {
+    padding: 22px 22px 26px;
+}
+
+.balance-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.balance-question {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--fh-color-text-main);
+    line-height: 1.45;
+    margin-bottom: 6px;
+}
+
+.balance-options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* 선택지 카드 */
+.balance-option {
+    text-align: left;
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: var(--fh-radius-lg);
+    border: 2px solid transparent;
+    background: var(--fh-color-primary-soft);
+    transition: 0.2s ease;
+}
+
+.balance-option:hover {
+    border-color: var(--fh-color-primary);
+}
+
+.balance-label {
+    font-weight: 700;
+    color: var(--fh-color-primary);
+}
+
+.balance-text {
+    margin: 6px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--fh-color-text-main);
+}
+
+/* 선택 후 퍼센트 바 */
+.balance-result {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.balance-bar {
+    height: 6px;
+    background: var(--fh-color-primary);
+    border-radius: var(--fh-radius-pill);
+    flex: 1;
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+.balance-percent {
+    font-size: 12px;
+    color: var(--fh-color-text-soft);
+}
+
+/* 선택한 사용자들의 아바타 표시 */
+.balance-avatars {
+    display: flex;
+    gap: -6px;
+    margin-top: 6px;
+}
+
+.balance-avatars .avatar-sm {
+    border: 2px solid white;
+    margin-right: -6px;
+}
+
+
+/* -----------------------------------------------------
+   💬 신조어 퀴즈 (Slang Quiz)
+----------------------------------------------------- */
+
+.card-quiz {
+    padding: 22px 22px 26px;
+}
+
+.quiz-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.quiz-question {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--fh-color-text-main);
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.quiz-option {
+    width: 100%;
+    text-align: left;
+    padding: 12px 14px;
+    border-radius: var(--fh-radius-md);
+    background: var(--fh-color-primary-soft);
+    transition: 0.18s ease;
+    font-size: 14px;
+    color: var(--fh-color-text-main);
+}
+
+.quiz-option:hover {
+    background: var(--fh-color-primary-soft-strong);
+}
+
+.quiz-option.correct {
+    background: var(--fh-color-success-soft);
+    border: 1px solid var(--fh-color-success);
+}
+
+.quiz-option.wrong {
+    background: var(--fh-color-danger-soft);
+    border: 1px solid var(--fh-color-danger);
+}
+
+.quiz-feedback {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fh-color-text-main);
+    min-height: 20px;
+}
+
+
+
+/* -----------------------------------------------------
+   📅 캘린더 위젯 (Calendar)
+----------------------------------------------------- */
+
+.calendar-grid {
+    margin-top: 10px;
+}
+
+.calendar-cell {
+    height: 55px;
+    background: white;
+    border-radius: var(--fh-radius-md);
+    border: 1px solid var(--fh-color-border-subtle);
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    font-size: 13px;
+    transition: 0.18s ease;
+}
+
+.calendar-cell:hover {
+    border-color: var(--fh-color-primary);
+}
+
+.calendar-day-number {
+    font-weight: 600;
+    color: var(--fh-color-text-main);
+}
+
+.calendar-event-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    margin-top: 4px;
+}
+
+.calendar-event-dinner {
+    background: var(--fh-color-accent);
+}
+
+.calendar-event-trip {
+    background: var(--fh-color-primary);
+}
+
+/* 오늘 날짜 강조 */
+.calendar-cell.today {
+    border-color: var(--fh-color-primary);
+    background: var(--fh-color-primary-soft);
+}
+
+
+/* -----------------------------------------------------
+   👨‍👩‍👧 가족 초대 / 프로필
+----------------------------------------------------- */
+
+.profile-avatar-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.avatar-upload-label {
+    text-align: center;
+    cursor: pointer;
+}
+
+.avatar-upload-text {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--fh-color-text-soft);
+}

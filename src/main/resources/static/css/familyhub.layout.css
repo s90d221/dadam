@@ -1,0 +1,260 @@
+/* =========================================
+   familyhub.layout.css
+   - Header / Main Layout / Sidebar
+   - 전체 페이지 레이아웃 담당
+========================================= */
+
+/* ---------- App Wrapper ---------- */
+.app {
+    max-width: var(--fh-layout-max-width);
+    margin: 0 auto;
+    padding: 0 var(--fh-layout-padding-x);
+}
+
+/* ---------- Header ---------- */
+
+.header {
+    height: var(--fh-layout-header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+    margin-bottom: 24px;
+
+    position: sticky;
+    top: 0;
+    z-index: 50;
+
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--fh-color-border-subtle);
+}
+
+/* Left section */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+/* Logo */
+.logo-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    border-radius: var(--fh-radius-md);
+    background: var(--fh-color-primary-soft);
+    transition: 0.25s ease;
+}
+
+.logo-chip:hover {
+    background: var(--fh-color-primary-soft-strong);
+}
+
+.logo-mark {
+    font-size: 22px;
+}
+
+.logo-title {
+    font-weight: 700;
+    font-size: 17px;
+}
+
+.logo-subtitle {
+    font-size: 12px;
+    color: var(--fh-color-text-soft);
+    margin-top: -3px;
+}
+
+/* Navigation */
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-pill {
+    padding: 7px 16px;
+    border-radius: var(--fh-radius-pill);
+    font-weight: 500;
+    font-size: 14px;
+    background: transparent;
+    color: var(--fh-color-text-soft);
+    transition: all 0.22s ease;
+}
+
+.nav-pill:hover {
+    background: var(--fh-color-primary-soft);
+    color: var(--fh-color-primary);
+}
+
+.nav-pill.is-active {
+    background: var(--fh-color-primary);
+    color: white;
+}
+
+/* Right section */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-icon-btn {
+    background: transparent;
+    padding: 6px;
+    border-radius: var(--fh-radius-sm);
+    position: relative;
+    font-size: 20px;
+    transition: 0.15s ease;
+}
+
+.header-icon-btn:hover {
+    background: var(--fh-color-primary-soft);
+}
+
+.avatar-chip {
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: var(--fh-radius-pill);
+    background: var(--fh-color-bg-elevated);
+    border: 1px solid var(--fh-color-border-subtle);
+    transition: 0.2s ease;
+}
+
+.avatar-chip:hover {
+    border-color: var(--fh-color-primary);
+}
+
+/* ---------- Main Layout ---------- */
+
+.main-layout {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+}
+
+/* Main Column */
+.main-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Sidebar */
+.sidebar {
+    position: sticky;
+    top: calc(var(--fh-layout-header-height) + 12px);
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ---------- Calendar Shell Layout ---------- */
+
+.calendar-shell {
+    margin-top: 12px;
+    background: var(--fh-color-bg-elevated);
+    padding: 16px;
+    border-radius: var(--fh-radius-lg);
+    border: 1px solid var(--fh-color-border-subtle);
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.calendar-title {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.calendar-grid {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    min-height: 230px;
+}
+
+/* ---------- Activity List ---------- */
+
+.activity-list {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--fh-radius-md);
+    background: var(--fh-color-bg-elevated);
+    border: 1px solid var(--fh-color-border-subtle);
+}
+
+.activity-icon {
+    font-size: 20px;
+    margin-top: 2px;
+}
+
+.activity-type-answer::before {
+    content: "✏️";
+}
+
+.activity-type-comment::before {
+    content: "💬";
+}
+
+.activity-type-event::before {
+    content: "📌";
+}
+
+/* ---------- Panel Cards Row ---------- */
+
+.cards-row {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1080px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: relative;
+        top: 0;
+    }
+}
+
+@media (max-width: 640px) {
+    .header {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 12px 8px 10px;
+        gap: 10px;
+    }
+
+    .main-nav {
+        flex-wrap: wrap;
+    }
+
+    .main-layout {
+        gap: 20px;
+    }
+}
