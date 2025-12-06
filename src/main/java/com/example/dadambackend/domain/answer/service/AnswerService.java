@@ -4,6 +4,7 @@ import com.example.dadambackend.domain.answer.dto.request.CreateAnswerRequest;
 import com.example.dadambackend.domain.answer.dto.response.AnswerResponse;
 import com.example.dadambackend.domain.answer.model.Answer;
 import com.example.dadambackend.domain.answer.repository.AnswerRepository;
+import com.example.dadambackend.domain.comment.repository.CommentRepository;
 import com.example.dadambackend.domain.question.model.Question;
 import com.example.dadambackend.domain.question.service.QuestionService;
 import com.example.dadambackend.domain.user.model.User;
@@ -21,9 +22,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AnswerService {
+
     private final AnswerRepository answerRepository;
     private final QuestionService questionService;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository; // 🔹 댓글 수 집계용
 
     // 요청하신 대로 임시 사용자 ID를 1L로 고정합니다.
     private final Long TEMP_USER_ID = 1L;
@@ -52,7 +55,11 @@ public class AnswerService {
         Answer answer = new Answer(question, user, request.getContent());
         answer = answerRepository.save(answer);
 
-        return AnswerResponse.of(answer);
+        // 새로 생성된 답변이므로 댓글 수는 0
+        long commentCount = 0L;
+
+        // 🔹 AnswerResponse.of(Answer, long commentCount) 형태로 사용
+        return AnswerResponse.of(answer, commentCount);
     }
 
     /**
@@ -65,8 +72,12 @@ public class AnswerService {
         questionService.getQuestionById(questionId);
 
         List<Answer> answers = answerRepository.findByQuestionIdOrderByCreatedAtAsc(questionId);
+
         return answers.stream()
-                .map(AnswerResponse::of)
+                .map(answer -> {
+                    long commentCount = commentRepository.countByAnswerId(answer.getId());
+                    return AnswerResponse.of(answer, commentCount);
+                })
                 .collect(Collectors.toList());
     }
 }

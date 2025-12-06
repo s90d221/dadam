@@ -42,19 +42,22 @@
         </div>
 
         <div class="header-right">
+            <!-- 알림 열기 -->
             <button class="header-icon-btn" id="open-notifications" type="button" aria-label="알림 열기">
                 <span class="fh-icon-bell"></span>
                 <span class="badge-dot" id="notification-badge"></span>
             </button>
 
+            <!-- 로그인/회원 관리 -->
             <button class="header-icon-btn" id="open-auth" type="button" aria-label="로그인/회원 관리">
                 <span class="fh-icon-user"></span>
             </button>
 
+            <!-- 프로필 / 마이페이지 -->
             <button class="avatar-chip" id="open-profile" type="button">
-          <span class="avatar avatar-sm" id="current-avatar">
-            <span class="avatar-initial">가</span>
-          </span>
+                <span class="avatar avatar-sm" id="current-avatar">
+                    <span class="avatar-initial">가</span>
+                </span>
                 <span class="avatar-name" id="current-username">우리 가족</span>
                 <span class="fh-icon-chevron-down"></span>
             </button>
@@ -96,17 +99,26 @@
                         <p class="question-tagline">
                             오늘의 다담 주제
                         </p>
-                        <p class="question-text" id="today-question-text" data-question-id="">
+
+                        <!-- ✅ 질문 ID를 data-question-id로 바인딩 -->
+                        <p
+                                class="question-text"
+                                id="today-question-text"
+                                data-question-id=""
+                                th:attr="data-question-id=${todayQuestion != null} ? ${todayQuestion.id} : null"
+                                th:text="${todayQuestion != null} ? ${todayQuestion.content} : '가족과 함께한 여행 중 가장 기억에 남는 순간은 언제였나요?'"
+                        >
                             가족과 함께한 여행 중 가장 기억에 남는 순간은 언제였나요?
                         </p>
+
                         <div class="question-meta">
-                <span class="chip chip-soft">
-                  <span class="fh-icon-heart-small"></span>
-                  <span id="question-like-count">12</span>명이 좋아했어요
-                </span>
+                            <span class="chip chip-soft">
+                                <span class="fh-icon-heart-small"></span>
+                                <span id="question-like-count">12</span>명이 좋아했어요
+                            </span>
                             <span class="chip chip-outline">
-                  모든 가족 답변 완료 시 다음 질문이 열립니다
-                </span>
+                                모든 가족 답변 완료 시 다음 질문이 열립니다
+                            </span>
                         </div>
                     </div>
 
@@ -115,12 +127,12 @@
                             내 답변 적어보기
                         </label>
                         <div class="textarea-shell">
-                <textarea
-                        id="answer-input"
-                        class="textarea"
-                        rows="3"
-                        placeholder="오늘 있었던 일이나 떠오르는 기억을 편하게 적어 주세요 :)"
-                ></textarea>
+                            <textarea
+                                    id="answer-input"
+                                    class="textarea"
+                                    rows="3"
+                                    placeholder="오늘 있었던 일이나 떠오르는 기억을 편하게 적어 주세요 :)"
+                            ></textarea>
                             <div class="textarea-footer">
                                 <div class="emoji-row">
                                     <button type="button" class="emoji-chip" data-emoji="😊">😊</button>
@@ -150,72 +162,14 @@
                         </p>
                     </div>
                     <div class="card-header-right">
-              <span class="pill pill-soft" id="answer-progress-pill">
-                3 / 4명 참여 중
-              </span>
+                        <span class="pill pill-soft" id="answer-progress-pill">
+                            0 / 0명 참여 중
+                        </span>
                     </div>
                 </header>
 
-                <ul class="answer-list" id="answer-list">
-                    <!-- 예시 아이템 -->
-                    <li class="answer-item" data-answer-id="1">
-                        <button class="answer-main" type="button">
-                            <div class="answer-user">
-                  <span class="avatar avatar-sm avatar-soft">
-                    <span class="avatar-initial">엄</span>
-                  </span>
-                                <div class="answer-user-text">
-                                    <span class="answer-name">엄마</span>
-                                    <span class="answer-time">오늘 · 19:21</span>
-                                </div>
-                            </div>
-                            <p class="answer-preview">
-                                작년에 제주도 갔을 때, 다 같이 파도 맞으면서 웃던 순간이 제일 먼저 떠오르네...
-                            </p>
-                        </button>
-                        <div class="answer-meta">
-                            <button class="meta-btn like-btn" type="button">
-                                <span class="fh-icon-heart"></span>
-                                <span class="meta-count">5</span>
-                            </button>
-                            <button class="meta-btn comment-btn" type="button">
-                                <span class="fh-icon-comment"></span>
-                                <span class="meta-count">3</span>
-                            </button>
-                            <span class="meta-tag">#가족여행</span>
-                        </div>
-                    </li>
-
-                    <li class="answer-item" data-answer-id="2">
-                        <button class="answer-main" type="button">
-                            <div class="answer-user">
-                  <span class="avatar avatar-sm avatar-soft">
-                    <span class="avatar-initial">아</span>
-                  </span>
-                                <div class="answer-user-text">
-                                    <span class="answer-name">아빠</span>
-                                    <span class="answer-time">오늘 · 18:03</span>
-                                </div>
-                            </div>
-                            <p class="answer-preview">
-                                난 캠핑장에서 다 같이 밤하늘 별 보면서 이야기 나눴던 그날 밤이 아직도 생생해...
-                            </p>
-                        </button>
-                        <div class="answer-meta">
-                            <button class="meta-btn like-btn" type="button">
-                                <span class="fh-icon-heart"></span>
-                                <span class="meta-count">4</span>
-                            </button>
-                            <button class="meta-btn comment-btn" type="button">
-                                <span class="fh-icon-comment"></span>
-                                <span class="meta-count">1</span>
-                            </button>
-                            <span class="meta-tag">#캠핑</span>
-                        </div>
-                    </li>
-
-                    <!-- 실제 데이터는 dadam.answers.js에서 렌더링 -->
-                </ul>
+                <!-- ✅ 실제 데이터는 dadam.answers.js가 렌더링 -->
+                <ul class="answer-list" id="answer-list"></ul>
             </section>
 
             <!-- 밸런스 게임 + 신조어 퀴즈 영역 -->
@@ -292,21 +246,7 @@
                             “알잘딱깔센”의 뜻은 무엇일까요?
                         </p>
                         <ul class="quiz-options" id="quiz-options">
-                            <li>
-                                <button class="quiz-option" type="button" data-index="0">
-                                    1. 알아서 잘 딱 깔끔하고 센스 있게
-                                </button>
-                            </li>
-                            <li>
-                                <button class="quiz-option" type="button" data-index="1">
-                                    2. 알바는 잘 딱 깔끔하고 센스 있게
-                                </button>
-                            </li>
-                            <li>
-                                <button class="quiz-option" type="button" data-index="2">
-                                    3. 알고 잘 딱 깔끔하게 설명
-                                </button>
-                            </li>
+                            <!-- JS에서 실제 보기 렌더링 -->
                         </ul>
                         <p class="quiz-feedback" id="quiz-feedback" aria-live="polite"></p>
                     </div>
@@ -332,35 +272,34 @@
                 </header>
 
                 <div class="family-grid" id="family-grid">
-                    <!-- 예시 멤버 -->
                     <button class="family-cell" type="button" data-user-id="mom">
-              <span class="avatar avatar-md">
-                <span class="avatar-initial">엄</span>
-              </span>
+                        <span class="avatar avatar-md">
+                            <span class="avatar-initial">엄</span>
+                        </span>
                         <span class="family-name">엄마</span>
                         <span class="family-role-badge">Parent</span>
                     </button>
 
                     <button class="family-cell" type="button" data-user-id="dad">
-              <span class="avatar avatar-md">
-                <span class="avatar-initial">아</span>
-              </span>
+                        <span class="avatar avatar-md">
+                            <span class="avatar-initial">아</span>
+                        </span>
                         <span class="family-name">아빠</span>
                         <span class="family-role-badge">Parent</span>
                     </button>
 
                     <button class="family-cell" type="button" data-user-id="me">
-              <span class="avatar avatar-md avatar-accent">
-                <span class="avatar-initial">나</span>
-              </span>
+                        <span class="avatar avatar-md avatar-accent">
+                            <span class="avatar-initial">나</span>
+                        </span>
                         <span class="family-name">나</span>
                         <span class="family-role-badge">Me</span>
                     </button>
 
                     <button class="family-cell family-add" id="family-add-btn" type="button">
-              <span class="avatar avatar-md avatar-dashed">
-                <span class="fh-icon-plus"></span>
-              </span>
+                        <span class="avatar avatar-md avatar-dashed">
+                            <span class="fh-icon-plus"></span>
+                        </span>
                         <span class="family-name">멤버 추가</span>
                     </button>
                 </div>
@@ -395,30 +334,12 @@
                         </button>
                     </div>
                     <div class="calendar-grid" id="calendar-grid">
-                        <!-- dadam.ui.js에서 11월 달력 렌더링 -->
+                        <!-- dadam.ui.js에서 달력 렌더링 -->
                     </div>
                 </div>
 
-                <div class="event-list" id="event-list">
-                    <!-- 예시 일정 -->
-                    <article class="event-item">
-                        <div class="event-dot event-type-dinner"></div>
-                        <div class="event-text">
-                            <p class="event-title">가족 외식</p>
-                            <p class="event-meta">11월 20일 · 저녁 7시 · 집 앞 식당</p>
-                        </div>
-                        <button class="ghost-icon-btn event-remind-btn" type="button">
-                            <span class="fh-icon-bell-small"></span>
-                        </button>
-                    </article>
-                    <article class="event-item">
-                        <div class="event-dot event-type-trip"></div>
-                        <div class="event-text">
-                            <p class="event-title">주말 서울 나들이</p>
-                            <p class="event-meta">11월 23일 · 하루 종일</p>
-                        </div>
-                    </article>
-                </div>
+                <!-- ✅ 일정 리스트: JS가 API 결과로 렌더 -->
+                <div class="event-list" id="event-list"></div>
             </section>
 
             <!-- 최근 활동 / 알림 미리보기 -->
@@ -437,25 +358,12 @@
                 </header>
 
                 <ul class="activity-list" id="activity-list">
+                    <!-- 필요하면 나중에 실제 데이터로 교체 -->
                     <li class="activity-item">
                         <span class="activity-icon activity-type-answer"></span>
                         <div class="activity-text">
                             <p class="activity-title">엄마가 오늘의 질문에 답변을 남겼어요.</p>
                             <p class="activity-meta">3분 전</p>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <span class="activity-icon activity-type-comment"></span>
-                        <div class="activity-text">
-                            <p class="activity-title">아빠가 수진이 답변에 댓글을 달았어요.</p>
-                            <p class="activity-meta">20분 전</p>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <span class="activity-icon activity-type-event"></span>
-                        <div class="activity-text">
-                            <p class="activity-title">이번 주말 가족 외식 약속이 다가오고 있어요.</p>
-                            <p class="activity-meta">1시간 전 · 알림 예정</p>
                         </div>
                     </li>
                 </ul>
@@ -466,7 +374,207 @@
 
 <!-- ================= MODALS ================= -->
 
-<!-- ... 위에서 작성한 모달 코드 전부 동일 ... -->
+<!-- 🔔 알림 모달 -->
+<div id="modal-notifications" class="modal-backdrop">
+    <div class="modal">
+        <header class="modal-header">
+            <h2 class="modal-title">알림</h2>
+            <button class="ghost-icon-btn" type="button" data-close-modal="modal-notifications">
+                <span class="fh-icon-close"></span>
+            </button>
+        </header>
+        <div class="modal-body">
+            <ul class="notification-list" id="notification-list">
+                <!-- dadam.core.js 에서 렌더링 -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 👤 프로필 / 마이페이지 모달 -->
+<div id="modal-profile" class="modal-backdrop">
+    <div class="modal">
+        <header class="modal-header">
+            <h2 class="modal-title">프로필 설정</h2>
+            <button class="ghost-icon-btn" type="button" data-close-modal="modal-profile">
+                <span class="fh-icon-close"></span>
+            </button>
+        </header>
+        <div class="modal-body">
+            <form id="profile-form">
+                <div class="profile-avatar-section">
+                    <div class="avatar avatar-lg avatar-soft" id="profile-avatar-preview">
+                        <span class="avatar-initial">나</span>
+                    </div>
+                    <label class="btn btn-ghost btn-sm">
+                        이미지 선택
+                        <input id="profile-image-input" type="file" accept="image/*" hidden />
+                    </label>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="profile-name-input">이름</label>
+                    <input id="profile-name-input" class="input" type="text" placeholder="이름을 입력하세요" />
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="profile-role-input">역할</label>
+                    <select id="profile-role-input" class="select">
+                        <option value="child">자녀</option>
+                        <option value="parent">부모</option>
+                        <option value="grandparent">조부모</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-ghost" type="button" data-close-modal="modal-profile">취소</button>
+                    <button class="btn btn-primary" type="submit">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 🔐 로그인 / 회원가입 모달 -->
+<div id="modal-auth" class="modal-backdrop">
+    <div class="modal">
+        <header class="modal-header">
+            <h2 class="modal-title">로그인 / 회원가입</h2>
+            <button class="ghost-icon-btn" type="button" data-close-modal="modal-auth">
+                <span class="fh-icon-close"></span>
+            </button>
+        </header>
+
+        <div class="modal-body">
+            <!-- 탭 -->
+            <div class="auth-tabs">
+                <button class="auth-tab is-active" type="button" data-auth-tab="login">로그인</button>
+                <button class="auth-tab" type="button" data-auth-tab="signup">회원가입</button>
+            </div>
+
+            <!-- 로그인 패널 -->
+            <section class="auth-panel is-active" data-auth-panel="login">
+                <form id="login-form">
+                    <div class="field-group">
+                        <label class="field-label" for="login-email">이메일</label>
+                        <input id="login-email" class="input" type="email" name="email" required />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="login-password">비밀번호</label>
+                        <input id="login-password" class="input" type="password" name="password" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-ghost" type="button" data-close-modal="modal-auth">취소</button>
+                        <button class="btn btn-primary" type="submit">로그인</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- 회원가입 패널 -->
+            <section class="auth-panel" data-auth-panel="signup">
+                <form id="signup-form">
+                    <div class="field-group">
+                        <label class="field-label" for="signup-name">이름</label>
+                        <input id="signup-name" class="input" type="text" name="name" required />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="signup-email">이메일</label>
+                        <input id="signup-email" class="input" type="email" name="email" required />
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="signup-password">비밀번호</label>
+                        <input id="signup-password" class="input" type="password" name="password" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-ghost" type="button" data-close-modal="modal-auth">취소</button>
+                        <button class="btn btn-primary" type="submit">회원가입</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+
+<!-- 📅 약속 만들기 모달 -->
+<div id="modal-schedule" class="modal-backdrop">
+    <div class="modal">
+        <header class="modal-header">
+            <h2 class="modal-title">가족 약속 만들기</h2>
+            <button class="ghost-icon-btn" type="button" data-close-modal="modal-schedule">
+                <span class="fh-icon-close"></span>
+            </button>
+        </header>
+
+        <div class="modal-body">
+            <form id="schedule-form">
+                <div class="field-group">
+                    <label class="field-label" for="schedule-title">약속 이름</label>
+                    <input id="schedule-title" class="input" type="text" placeholder="예: 토요일 가족 외식" required />
+                </div>
+
+                <div class="field-group field-row">
+                    <div class="field-col">
+                        <label class="field-label" for="schedule-date">날짜</label>
+                        <input id="schedule-date" class="input" type="date" required />
+                    </div>
+                    <div class="field-col">
+                        <label class="field-label" for="schedule-time">시간</label>
+                        <input id="schedule-time" class="input" type="time" />
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="schedule-place">장소</label>
+                    <input id="schedule-place" class="input" type="text" placeholder="예: 집 앞 식당" />
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="schedule-memo">메모</label>
+                    <textarea id="schedule-memo" class="textarea" rows="3" placeholder="약속에 대한 추가 메모를 적어 주세요."></textarea>
+                </div>
+
+                <div class="field-group">
+                    <label class="checkbox">
+                        <input id="schedule-remind" type="checkbox" checked />
+                        <span>약속 전에 알림 받기</span>
+                    </label>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-ghost" type="button" data-close-modal="modal-schedule">취소</button>
+                    <button class="btn btn-primary" type="submit">등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ 답변 상세 + 댓글 모달 (answers.js에서 사용) -->
+<div id="modal-answer-thread" class="modal-backdrop">
+    <div class="modal">
+        <header class="modal-header">
+            <h2 class="modal-title">가족 답변</h2>
+            <button class="ghost-icon-btn" type="button" data-close-modal="modal-answer-thread">
+                <span class="fh-icon-close"></span>
+            </button>
+        </header>
+        <div class="modal-body">
+            <div id="answer-thread-main"></div>
+            <hr />
+            <ul class="comment-list" id="comment-list"></ul>
+
+            <form id="comment-form" class="comment-form">
+                <div class="field-group">
+                    <label class="field-label" for="comment-input">댓글 남기기</label>
+                    <textarea id="comment-input" class="textarea" rows="2" placeholder="가족에게 따뜻한 한 마디를 남겨 보세요."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">댓글 등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- ================= SCRIPTS ================= -->
 <script th:src="@{/js/dadam.core.js}"></script>

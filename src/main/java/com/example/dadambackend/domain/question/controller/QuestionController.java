@@ -1,6 +1,6 @@
 package com.example.dadambackend.domain.question.controller;
 
-import com.example.dadambackend.domain.question.dto.response.QuestionResponse;
+import com.example.dadambackend.domain.question.dto.QuestionResponse;
 import com.example.dadambackend.domain.question.model.Question;
 import com.example.dadambackend.domain.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;

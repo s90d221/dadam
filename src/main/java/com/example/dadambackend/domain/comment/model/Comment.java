@@ -1,4 +1,3 @@
-// com/example/dadambackend/domain/comment/model/Comment.java
 package com.example.dadambackend.domain.comment.model;
 
 import com.example.dadambackend.domain.answer.model.Answer; // Answer 엔티티 참조
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment {
 
-    public static final int MAX_COMMENT_LENGTH = 50; // ⭐ 글자수 제한 (최대 50자)
+    public static final int MAX_COMMENT_LENGTH = 50; // 글자수 제한 (최대 50자)
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

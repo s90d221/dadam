@@ -1,5 +1,4 @@
-// com/example/dadambackend/domain/comment/dto/CommentResponse.java
-package com.example.dadambackend.domain.comment.dto;
+package com.example.dadambackend.domain.comment.dto.response;
 
 import com.example.dadambackend.domain.comment.model.Comment;
 import lombok.Builder;

@@ -1,10 +1,9 @@
-// com/example/dadambackend/domain/comment/service/CommentService.java
 package com.example.dadambackend.domain.comment.service;
 
 import com.example.dadambackend.domain.answer.model.Answer;
 import com.example.dadambackend.domain.answer.repository.AnswerRepository; // Answer Repository 참조
-import com.example.dadambackend.domain.comment.dto.CommentRequest;
-import com.example.dadambackend.domain.comment.dto.CommentResponse;
+import com.example.dadambackend.domain.comment.dto.request.CommentRequest;
+import com.example.dadambackend.domain.comment.dto.response.CommentResponse;
 import com.example.dadambackend.domain.comment.model.Comment;
 import com.example.dadambackend.domain.comment.repository.CommentRepository;
 import com.example.dadambackend.domain.user.model.User;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class CommentService {
 
-    public static final int MAX_COMMENTS_PER_USER = 10; // ⭐ 최대 댓글 개수 제한
+    public static final int MAX_COMMENTS_PER_USER = 10; // 최대 댓글 개수 제한
 
     private final CommentRepository commentRepository;
     private final AnswerRepository answerRepository; // 답변 엔티티 조회를 위해 필요

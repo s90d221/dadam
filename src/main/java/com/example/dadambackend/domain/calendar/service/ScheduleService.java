@@ -1,9 +1,8 @@
-// com/example/dadambackend/domain/calendar/service/ScheduleService.java
 package com.example.dadambackend.domain.calendar.service;
 
-import com.example.dadambackend.domain.calendar.dto.ScheduleRequest;
-import com.example.dadambackend.domain.calendar.dto.ScheduleResponse;
-import com.example.dadambackend.domain.calendar.dto.ScheduleUpdateResponse;
+import com.example.dadambackend.domain.calendar.dto.request.ScheduleRequest;
+import com.example.dadambackend.domain.calendar.dto.response.ScheduleResponse;
+import com.example.dadambackend.domain.calendar.dto.response.ScheduleUpdateResponse;
 import com.example.dadambackend.domain.calendar.model.Schedule;
 import com.example.dadambackend.domain.calendar.repository.ScheduleRepository;
 import com.example.dadambackend.global.exception.BusinessException;

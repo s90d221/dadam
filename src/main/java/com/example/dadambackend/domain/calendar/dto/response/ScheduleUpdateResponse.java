@@ -1,5 +1,4 @@
-// com/example/dadambackend/domain/calendar/dto/ScheduleUpdateResponse.java
-package com.example.dadambackend.domain.calendar.dto;
+package com.example.dadambackend.domain.calendar.dto.response;
 
 import com.example.dadambackend.domain.calendar.model.Schedule;
 import lombok.Builder;
@@ -14,6 +13,7 @@ public class ScheduleUpdateResponse {
     private String appointmentName;
     private LocalDate appointmentDate;
     private int iconType;
+    private boolean upcoming;
 
     public static ScheduleUpdateResponse from(Schedule schedule) {
         return ScheduleUpdateResponse.builder()

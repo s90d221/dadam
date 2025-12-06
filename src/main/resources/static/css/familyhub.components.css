@@ -419,3 +419,44 @@
 .event-type-trip {
     background: #7fa87a;
 }
+
+/* 일정 카드 액션 버튼 영역 (알림 / 수정 / 삭제) */
+.card-calendar .event-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-calendar .event-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-calendar .event-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+}
+
+/* 작은 종, 수정, 삭제 아이콘 표시 (이모지 버전) */
+.fh-icon-bell-small::before,
+.fh-icon-edit::before,
+.fh-icon-trash::before {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* 각 아이콘에 이모지 배치 */
+.fh-icon-bell-small::before {
+    content: "🔔";
+}
+
+.fh-icon-edit::before {
+    content: "✏️";
+}
+
+.fh-icon-trash::before {
+    content: "🗑️";
+}

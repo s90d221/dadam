@@ -1,8 +1,7 @@
-// com/example/dadambackend/domain/comment/controller/CommentController.java
 package com.example.dadambackend.domain.comment.controller;
 
-import com.example.dadambackend.domain.comment.dto.CommentRequest;
-import com.example.dadambackend.domain.comment.dto.CommentResponse;
+import com.example.dadambackend.domain.comment.dto.request.CommentRequest;
+import com.example.dadambackend.domain.comment.dto.response.CommentResponse;
 import com.example.dadambackend.domain.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

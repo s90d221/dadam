@@ -1,4 +1,3 @@
-// com/example/dadambackend/domain/calendar/repository/ScheduleRepository.java
 package com.example.dadambackend.domain.calendar.repository;
 
 import com.example.dadambackend.domain.calendar.model.Schedule;

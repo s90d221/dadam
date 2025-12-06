@@ -1,5 +1,4 @@
-// com/example/dadambackend/domain/calendar/dto/ScheduleRequest.java
-package com.example.dadambackend.domain.calendar.dto;
+package com.example.dadambackend.domain.calendar.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +14,6 @@ public class ScheduleRequest {
     // LocalDate는 객체 타입이므로 null 허용
     private LocalDate appointmentDate;
 
-    // ⭐ int -> Integer로 변경하여 null 허용 (수정 시 미전송되면 null)
+    // int -> Integer로 변경하여 null 허용 (수정 시 미전송되면 null)
     private Integer iconType;
 }

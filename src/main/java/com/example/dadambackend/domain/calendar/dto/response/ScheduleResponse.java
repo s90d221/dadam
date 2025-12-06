@@ -1,5 +1,4 @@
-// com/example/dadambackend/domain/calendar/dto/ScheduleResponse.java
-package com.example.dadambackend.domain.calendar.dto;
+package com.example.dadambackend.domain.calendar.dto.response;
 
 import com.example.dadambackend.domain.calendar.model.Schedule;
 import lombok.Builder;

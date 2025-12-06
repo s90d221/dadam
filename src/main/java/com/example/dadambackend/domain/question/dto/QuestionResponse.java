@@ -1,4 +1,4 @@
-package com.example.dadambackend.domain.question.dto.response;
+package com.example.dadambackend.domain.question.dto;
 
 import com.example.dadambackend.domain.question.model.Question;
 import com.example.dadambackend.domain.question.model.QuestionCategory;

@@ -444,3 +444,26 @@
         height: 48px;
     }
 }
+
+/* ===========================
+   일정 알림 버튼 스타일
+   =========================== */
+
+/* 기본 상태 (알림 OFF) */
+.event-actions .event-remind-btn {
+    color: var(--fh-color-text-soft);
+    background-color: transparent;
+    border-radius: 999px;
+}
+
+/* 알림 ON 상태 */
+.event-actions .event-remind-btn.is-remind-on {
+    color: var(--fh-color-accent) !important;
+    background-color: rgba(255, 193, 7, 0.16) !important; /* 살짝 노란 배경 */
+}
+
+/* 아이콘이 폰트/의사요소로 그려져도 다 잡기 */
+.event-actions .event-remind-btn.is-remind-on .fh-icon-bell-small,
+.event-actions .event-remind-btn.is-remind-on .fh-icon-bell-small::before {
+    color: var(--fh-color-accent) !important;
+}

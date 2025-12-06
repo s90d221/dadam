@@ -1,4 +1,3 @@
-// com/example/dadambackend/domain/calendar/model/Schedule.java
 package com.example.dadambackend.domain.calendar.model;
 
 import jakarta.persistence.*;

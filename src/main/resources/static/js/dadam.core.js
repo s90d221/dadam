@@ -2,9 +2,13 @@
    dadam.core.js
    - 유저 정보 / 공통 상수
    - 로컬스토리지 관리
+   - 인증 토큰 관리
    - 알림(Notification) 시스템
    - 모달 시스템 (열기/닫기 + ESC)
 ===================================================== */
+
+/* 공통 API 기본 경로 (전역으로 한 번만 선언) */
+const API_BASE = "/api/v1";
 
 /* -----------------------------------------------------
    📌 공통 상수 & 로컬 저장 키
@@ -17,6 +21,7 @@ const DADAM_KEYS = {
     COMMENTS: "dadam_comments",
     BALANCE_GAME: "dadam_balance_game",
     QUIZ_STATE: "dadam_quiz_state",
+    AUTH_TOKEN: "dadam_auth_token", // 🔐 로그인 토큰 저장용
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -55,6 +60,27 @@ function save(key, value) {
 function load(key, fallback = null) {
     const raw = localStorage.getItem(key);
     return raw ? JSON.parse(raw) : fallback;
+}
+
+
+/* -----------------------------------------------------
+   🔐 인증 토큰 헬퍼
+----------------------------------------------------- */
+
+function getAuthToken() {
+    return localStorage.getItem(DADAM_KEYS.AUTH_TOKEN) || null;
+}
+
+function setAuthToken(token) {
+    if (token) {
+        localStorage.setItem(DADAM_KEYS.AUTH_TOKEN, token);
+    } else {
+        localStorage.removeItem(DADAM_KEYS.AUTH_TOKEN);
+    }
+}
+
+function isLoggedIn() {
+    return !!getAuthToken();
 }
 
 
@@ -175,6 +201,7 @@ $("#open-profile")?.addEventListener("click", () => {
     if (currentUser.avatar) {
         avatarPreview.style.backgroundImage = `url(${currentUser.avatar})`;
         avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.style.backgroundPosition = "center";
     } else {
         avatarPreview.style.backgroundImage = "none";
     }
@@ -186,6 +213,14 @@ $("#open-auth")?.addEventListener("click", () => {
     openModal("modal-auth");
 });
 
+/* 모달 바깥(배경) 클릭 시 닫기 */
+document.addEventListener("click", (e) => {
+    // 회색 배경(div.modal-backdrop)을 직접 클릭했을 때만 닫기
+    if (!e.target.classList.contains("modal-backdrop")) return;
+
+    // 해당 모달에서 is-active 제거
+    e.target.classList.remove("is-active");
+});
 
 /* -----------------------------------------------------
    🧪 알림 테스트 함수 (디버깅용)

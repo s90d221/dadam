@@ -1,5 +1,4 @@
-// com/example/dadambackend/domain/comment/dto/CommentRequest.java
-package com.example.dadambackend.domain.comment.dto;
+package com.example.dadambackend.domain.comment.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

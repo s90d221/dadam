@@ -1,9 +1,8 @@
-// com/example/dadambackend/domain/calendar/controller/ScheduleController.java
 package com.example.dadambackend.domain.calendar.controller;
 
-import com.example.dadambackend.domain.calendar.dto.ScheduleRequest;
-import com.example.dadambackend.domain.calendar.dto.ScheduleResponse;
-import com.example.dadambackend.domain.calendar.dto.ScheduleUpdateResponse; // ⭐ 추가
+import com.example.dadambackend.domain.calendar.dto.request.ScheduleRequest;
+import com.example.dadambackend.domain.calendar.dto.response.ScheduleResponse;
+import com.example.dadambackend.domain.calendar.dto.response.ScheduleUpdateResponse;
 import com.example.dadambackend.domain.calendar.service.ScheduleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,7 +45,7 @@ public class ScheduleController {
         return ResponseEntity.ok(response);
     }
 
-    // ⭐ 1. GET /api/v1/schedules/{scheduleId} - 일정 수정 시 기존 정보 제공
+    // 1. GET /api/v1/schedules/{scheduleId} - 일정 수정 시 기존 정보 제공
     @Operation(summary = "👀 일정 상세 조회 (수정용)", description = "일정 ID를 통해 기존 일정 정보를 가져옵니다. 수정 시 클라이언트 입력창에 채워넣기 위해 사용됩니다.")
     @GetMapping("/{scheduleId}")
     public ResponseEntity<ScheduleUpdateResponse> getScheduleForUpdate(@PathVariable Long scheduleId) {
@@ -54,7 +53,7 @@ public class ScheduleController {
         return ResponseEntity.ok(response);
     }
 
-    // ⭐ 2. PUT /api/v1/schedules/{scheduleId} - 일정 수정 기능
+    // 2. PUT /api/v1/schedules/{scheduleId} - 일정 수정 기능
     @Operation(summary = "📝 일정 수정", description = "일정 ID를 통해 기존 일정을 수정합니다. 입력하지 않은 필드는 기존 값이 유지됩니다.")
     @PutMapping("/{scheduleId}")
     public ResponseEntity<ScheduleResponse> updateSchedule(
