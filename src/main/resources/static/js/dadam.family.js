@@ -111,7 +111,7 @@ function buildFamilyCellHtml(member) {
       <button class="family-cell" type="button" data-user-id="${userId}">
         ${avatarHtml}
         <span class="family-name">${displayName}</span>
-        <span class="family-role-badge">${roleLabel}</span>
+<!--        <span class="family-role-badge">${roleLabel}</span>-->
       </button>
     `;
 }
@@ -125,7 +125,7 @@ function buildFamilyAddCellHtml() {
         <span class="avatar avatar-md avatar-dashed">
           <span class="fh-icon-plus"></span>
         </span>
-        <span class="family-name">멤버 추가</span>
+        <span class="family-name">추가</span>
       </button>
     `;
 }
