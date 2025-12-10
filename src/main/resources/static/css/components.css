@@ -1,0 +1,596 @@
+/* =====================================================
+   components.css
+   공통 컴포넌트: 카드, 버튼, 인풋, 모달, 리스트 등
+===================================================== */
+
+/* ---------- Card ---------- */
+
+.card {
+    background: var(--fh-color-bg-elevated);
+    border-radius: var(--fh-radius-lg);
+    padding: 20px 22px;
+    border: 1px solid var(--fh-color-border-subtle);
+    box-shadow: var(--fh-shadow-soft);
+    transition:
+            box-shadow 0.22s ease,
+            transform 0.22s ease,
+            border-color 0.22s ease,
+            background-color 0.22s ease;
+}
+
+.card:hover {
+    box-shadow: var(--fh-shadow-medium);
+    transform: translateY(-2px);
+    border-color: var(--fh-color-border-strong);
+    background-color: #ffffff;
+}
+
+.card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.card-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--fh-color-text-main);
+}
+
+.card-subtitle {
+    font-size: 13px;
+    color: var(--fh-color-text-softer);
+}
+
+.card-hero {
+    padding: 26px 24px;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+    padding: 9px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--fh-radius-md);
+    transition:
+            background-color 0.18s ease,
+            color 0.18s ease,
+            box-shadow 0.18s ease,
+            border-color 0.18s ease,
+            transform 0.12s ease;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* 말차 메인 버튼 */
+
+.btn-primary {
+    background: var(--fh-color-primary);
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(95, 143, 101, 0.32);
+}
+
+.btn-primary:hover {
+    background: #527b58;
+    box-shadow: 0 8px 22px rgba(95, 143, 101, 0.38);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(95, 143, 101, 0.28);
+}
+
+/* 윤곽선/보조 버튼 */
+
+.btn-ghost {
+    background: #ffffff;
+    border: 1px solid var(--fh-color-border-subtle);
+    color: var(--fh-color-text-soft);
+}
+
+.btn-ghost:hover {
+    border-color: var(--fh-color-primary);
+    color: var(--fh-color-primary);
+    background: var(--fh-color-primary-soft);
+}
+
+.btn-sm {
+    padding: 6px 10px;
+    font-size: 13px;
+}
+
+/* 아이콘형 */
+
+.ghost-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border-radius: var(--fh-radius-md);
+    background: transparent;
+    font-size: 13px;
+    color: var(--fh-color-text-soft);
+    border: 1px solid transparent;
+    transition:
+            background-color 0.15s ease,
+            color 0.15s ease,
+            border-color 0.15s ease,
+            transform 0.1s ease;
+}
+
+.ghost-icon-btn:hover {
+    background: var(--fh-color-primary-soft);
+    color: var(--fh-color-primary);
+    border-color: rgba(95, 143, 101, 0.4);
+    transform: translateY(-1px);
+}
+
+/* 링크 스타일 버튼 */
+
+.link-button {
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--fh-color-primary);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.link-button:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Inputs / Textarea ---------- */
+
+.input,
+.textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background: #ffffff;
+    border-radius: var(--fh-radius-md);
+    border: 1px solid var(--fh-color-border-subtle);
+    font-size: 14px;
+    transition:
+            border-color 0.18s ease,
+            box-shadow 0.18s ease,
+            background-color 0.18s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: var(--fh-color-text-softer);
+}
+
+.input:focus,
+.textarea:focus {
+    border-color: var(--fh-color-primary);
+    box-shadow: 0 0 0 3px rgba(95, 143, 101, 0.22);
+    background: #ffffff;
+}
+
+.textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.textarea-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.textarea-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    align-items: center;
+}
+
+.length-hint {
+    font-size: 12px;
+    color: var(--fh-color-text-softer);
+}
+
+/* ---------- Emoji Chips ---------- */
+
+.emoji-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.emoji-chip {
+    padding: 4px 10px;
+    border-radius: var(--fh-radius-pill);
+    background: var(--fh-color-primary-soft);
+    color: var(--fh-color-primary);
+    font-size: 13px;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.emoji-chip:hover {
+    background: var(--fh-color-primary-soft-strong);
+    transform: translateY(-1px);
+}
+
+/* ---------- Pills / Chips ---------- */
+
+.pill {
+    padding: 4px 10px;
+    border-radius: var(--fh-radius-pill);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.pill-soft {
+    background: var(--fh-color-primary-soft);
+    color: var(--fh-color-primary);
+}
+
+.chip {
+    padding: 4px 10px;
+    border-radius: var(--fh-radius-pill);
+    font-size: 12px;
+}
+
+.chip-soft {
+    background: #f3f4f6;
+    color: var(--fh-color-text-soft);
+}
+
+.chip-outline {
+    border: 1px solid var(--fh-color-border-subtle);
+    color: var(--fh-color-text-soft);
+    background: #ffffff;
+}
+
+/* ---------- Modals ---------- */
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal-backdrop.is-active {
+    display: flex;
+}
+
+.modal {
+    background: #ffffff;
+    border-radius: var(--fh-radius-lg);
+    width: 100%;
+    max-width: 520px;
+    box-shadow: var(--fh-shadow-medium);
+    border: 1px solid var(--fh-color-border-subtle);
+    animation: modal-fade 0.25s ease;
+}
+
+.modal-header {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--fh-color-border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.modal-title {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 16px 18px 18px;
+}
+
+.modal-footer {
+    padding: 12px 18px 14px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid var(--fh-color-border-subtle);
+}
+
+@keyframes modal-fade {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- Comment / Answer ---------- */
+
+.comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.comment-item {
+    display: flex;
+    gap: 8px;
+}
+
+.comment-bubble {
+    padding: 9px 11px;
+    background: #f3f4f6;
+    border-radius: var(--fh-radius-md);
+    color: var(--fh-color-text-main);
+    font-size: 14px;
+    max-width: 80%;
+}
+
+.comment-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 6px;
+}
+
+/* 답변 리스트 */
+
+.answer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.answer-item {
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--fh-color-border-subtle);
+}
+
+.answer-main {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+}
+
+.answer-meta {
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.meta-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    font-size: 13px;
+    color: var(--fh-color-text-soft);
+}
+
+/* ---------- Family Grid ---------- */
+
+.family-grid {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 12px;
+}
+
+.family-cell {
+    text-align: center;
+    padding: 12px 8px;
+    border-radius: var(--fh-radius-md);
+    background: #ffffff;
+    border: 1px solid var(--fh-color-border-subtle);
+    transition:
+            border-color 0.15s ease,
+            box-shadow 0.15s ease,
+            transform 0.12s ease;
+}
+
+.family-cell:hover {
+    border-color: var(--fh-color-primary);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    transform: translateY(-2px);
+}
+
+.family-add {
+    background: var(--fh-color-primary-soft);
+}
+
+/* ---------- Event List ---------- */
+
+.event-list {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.event-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--fh-radius-md);
+    border: 1px solid var(--fh-color-border-subtle);
+    background: #ffffff;
+}
+
+.event-title {
+    font-weight: 600;
+    color: var(--fh-color-text-main);
+    font-size: 14px;
+}
+
+.event-meta {
+    font-size: 12px;
+    color: var(--fh-color-text-soft);
+}
+
+.card-calendar .event-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-calendar .event-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-calendar .event-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+}
+
+/* 이벤트 알림/수정/삭제 아이콘 */
+
+.fh-icon-bell-small::before,
+.fh-icon-edit::before,
+.fh-icon-trash::before {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.fh-icon-bell-small::before {
+    content: "🔔";
+}
+
+.fh-icon-edit::before {
+    content: "✏️";
+}
+
+.fh-icon-trash::before {
+    content: "🗑️";
+}
+
+/* 일정 알림 상태 */
+
+.event-actions .event-remind-btn {
+    color: var(--fh-color-text-soft);
+    background-color: transparent;
+    border-radius: 999px;
+}
+
+.event-actions .event-remind-btn.is-remind-on {
+    color: var(--fh-color-accent);
+    background-color: var(--fh-color-warning-soft);
+}
+
+.event-actions .event-remind-btn.is-remind-on .fh-icon-bell-small,
+.event-actions .event-remind-btn.is-remind-on .fh-icon-bell-small::before {
+    color: var(--fh-color-accent);
+}
+
+/* 답변 모달 내 레이아웃 조정 */
+
+#modal-answer-thread .modal-body {
+    max-height: 70vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#modal-answer-thread #answer-thread-main {
+    margin-bottom: 8px;
+}
+
+#modal-answer-thread #comment-list {
+    max-height: 260px;
+    overflow-y: auto;
+    padding-right: 4px;
+    margin-bottom: 10px;
+}
+
+.comment-actions .link-button {
+    font-size: 11px;
+    padding: 0;
+}
+
+/* -----------------------------------------
+   정답 확인 버튼 (신조어 퀴즈 전용)
+------------------------------------------ */
+
+/* 퀴즈 카드 안에서 위치 정렬 */
+.card-quiz .quiz-actions {
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* 실제 버튼 스타일 */
+#quiz-submit-btn {
+    min-width: 140px;
+    padding: 9px 18px;
+    border-radius: var(--fh-radius-pill);
+
+    background: var(--fh-color-primary);
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    border: none;
+    box-shadow: 0 6px 18px rgba(107, 170, 117, 0.35);
+    transition:
+            background-color 0.18s ease,
+            box-shadow 0.18s ease,
+            transform 0.12s ease,
+            opacity 0.18s ease;
+}
+
+/* hover / active 상태 */
+#quiz-submit-btn:hover {
+    background: #5a9665; /* 살짝 더 진한 말차색 */
+    box-shadow: 0 8px 22px rgba(107, 170, 117, 0.4);
+    transform: translateY(-1px);
+}
+
+#quiz-submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 12px rgba(107, 170, 117, 0.3);
+}
+
+/* 정답 확인 후 / 비활성화 상태 */
+#quiz-submit-btn:disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    box-shadow: none;
+    cursor: default;
+    transform: none;
+}

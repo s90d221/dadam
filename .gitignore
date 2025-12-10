@@ -45,4 +45,10 @@ out/
 Thumbs.db
 
 # Application properties
-src/main/resources/application*.yml
+# Application properties (로컬만 무시)
+src/main/resources/application.yml
+src/main/resources/application-local.yml
+src/main/resources/application-dev.yml
+
+# Render용 설정은 반드시 포함시키기
+!src/main/resources/application-render.yml

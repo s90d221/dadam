@@ -1,0 +1,135 @@
+/* 퀴즈 전체 카드 */
+#slang-quiz {
+    margin-bottom: 24px;
+}
+
+#slang-quiz .quiz-card-inner {
+    /* 필요 시 래퍼 div 사용 가능 */
+}
+
+/* 질문 영역 */
+#quiz-question {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+/* 보기 리스트 */
+#quiz-options {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.quiz-option-item {
+    list-style: none;
+}
+
+/* 보기 버튼 */
+.quiz-option {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    background-color: #ffffff;
+    border: 1px solid var(--matcha-border);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.quiz-option:hover {
+    border-color: var(--matcha-main);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+    transform: translateY(-1px);
+}
+
+.quiz-option-label {
+    font-size: 13px;
+    color: var(--matcha-text-sub);
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.quiz-option-text {
+    font-size: 14px;
+    color: var(--matcha-text-main);
+}
+
+/* 선택됨 */
+.quiz-option.selected {
+    border-color: var(--matcha-main);
+    background-color: var(--matcha-accent);
+}
+
+/* 정답/오답 상태 */
+.quiz-option.correct {
+    border-color: var(--matcha-dark);
+    box-shadow: 0 0 0 1px rgba(78, 123, 79, 0.25);
+}
+
+.quiz-option.wrong {
+    border-color: var(--matcha-danger);
+    background-color: #fff4f4;
+}
+
+/* 보기 하단 메타 (퍼센트 바 + 아바타) */
+.quiz-option-meta {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quiz-option-bar {
+    flex: 1;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--matcha-main-soft), var(--matcha-main));
+    transition: width var(--transition-normal);
+    max-width: 100%;
+}
+
+.quiz-option-percent {
+    font-size: 12px;
+    color: var(--matcha-text-sub);
+    min-width: 36px;
+    text-align: right;
+}
+
+/* 투표자 아바타 리스트 */
+.quiz-option-avatars {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 정답 피드백 텍스트 */
+#quiz-feedback {
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--matcha-dark);
+}
+
+/* 정답 확인 버튼 */
+#quiz-submit-btn {
+    margin-top: 14px;
+    padding: 7px 14px;
+    border-radius: var(--radius-pill);
+    background-color: var(--matcha-main);
+    color: #ffffff;
+    font-size: 13px;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+#quiz-submit-btn:hover:enabled {
+    background-color: var(--matcha-dark);
+    box-shadow: 0 3px 10px rgba(78, 123, 79, 0.26);
+    transform: translateY(-1px);
+}

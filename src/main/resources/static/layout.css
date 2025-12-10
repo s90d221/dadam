@@ -1,0 +1,306 @@
+/* =========================================
+   layout.css
+   Header / Main Layout / Sidebar
+   화이트 + 말차 포인트 레이아웃
+========================================= */
+
+/* ---------- App Wrapper ---------- */
+
+.app {
+    max-width: var(--fh-layout-max-width);
+    margin: 0 auto;
+    padding: 16px var(--fh-layout-padding-x) 32px;
+}
+
+/* ---------- Header ---------- */
+
+.header {
+    height: var(--fh-layout-header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+    margin-bottom: 24px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(249, 250, 251, 0.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--fh-color-border-subtle);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+}
+
+/* Left */
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+/* Logo chip */
+
+.logo-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px;
+    border-radius: var(--fh-radius-lg);
+    background: linear-gradient(
+            135deg,
+            #ffffff,
+            var(--fh-color-primary-soft)
+    );
+    border: 1px solid rgba(107, 170, 117, 0.3);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+    transition: transform 0.18s ease, box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.logo-chip:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+    background: linear-gradient(
+            135deg,
+            var(--fh-color-primary-soft),
+            #ffffff
+    );
+}
+
+.logo-mark {
+    font-size: 24px;
+}
+
+.logo-title {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--fh-color-text-main);
+}
+
+.logo-subtitle {
+    font-size: 12px;
+    color: var(--fh-color-text-softer);
+    margin-top: -2px;
+}
+
+/* Navigation */
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-pill {
+    padding: 8px 16px;
+    border-radius: var(--fh-radius-pill);
+    font-weight: 500;
+    font-size: 14px;
+    background: transparent;
+    color: var(--fh-color-text-soft);
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.nav-pill:hover {
+    background: var(--fh-color-primary-soft);
+    color: var(--fh-color-primary);
+    border-color: rgba(107, 170, 117, 0.4);
+}
+
+.nav-pill.is-active {
+    background: var(--fh-color-primary);
+    color: #ffffff;
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+/* Right */
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-icon-btn {
+    background: transparent;
+    padding: 7px;
+    border-radius: 12px;
+    position: relative;
+    font-size: 20px;
+    transition: background 0.18s ease, transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.header-icon-btn:hover {
+    background: rgba(230, 243, 234, 0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.1);
+}
+
+.avatar-chip {
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: var(--fh-radius-pill);
+    background: #ffffff;
+    border: 1px solid var(--fh-color-border-subtle);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.avatar-chip:hover {
+    border-color: rgba(107, 170, 117, 0.7);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+    transform: translateY(-1px);
+}
+
+/* ---------- Main Layout ---------- */
+
+.main-layout {
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.main-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Sidebar */
+
+.sidebar {
+    position: sticky;
+    top: calc(var(--fh-layout-header-height) + 16px);
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ---------- Calendar Shell Layout ---------- */
+
+.calendar-shell {
+    margin-top: 10px;
+    background: var(--fh-color-bg-elevated);
+    padding: 16px;
+    border-radius: var(--fh-radius-lg);
+    border: 1px solid var(--fh-color-border-subtle);
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.calendar-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--fh-color-text-main);
+}
+
+.calendar-grid {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    min-height: 230px;
+}
+
+/* ---------- Activity List ---------- */
+
+.activity-list {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--fh-radius-md);
+    background: #ffffff;
+    border: 1px solid var(--fh-color-border-subtle);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+}
+
+.activity-icon {
+    font-size: 20px;
+    margin-top: 2px;
+}
+
+.activity-type-answer::before {
+    content: "✏️";
+}
+
+.activity-type-comment::before {
+    content: "💬";
+}
+
+.activity-type-event::before {
+    content: "📌";
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1080px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: static;
+        top: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .main-nav {
+        flex-wrap: wrap;
+    }
+
+    .app {
+        padding-inline: 16px;
+    }
+
+    .main-layout {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .logo-chip {
+        padding: 6px 10px;
+    }
+
+    .logo-title {
+        font-size: 16px;
+    }
+
+    .logo-subtitle {
+        display: none;
+    }
+
+    .nav-pill {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+}

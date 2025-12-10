@@ -1,0 +1,222 @@
+/* 캘린더 헤더 */
+#calendar-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.calendar-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#calendar-prev,
+#calendar-next {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    border: 1px solid var(--matcha-border);
+    background-color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--matcha-dark);
+    transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+#calendar-prev:hover,
+#calendar-next:hover {
+    background-color: var(--matcha-accent);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+/* 캘린더 그리드 */
+#calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-top: 12px;
+}
+
+/* 빈 셀 */
+.calendar-cell-empty {
+    background: transparent;
+}
+
+/* 날짜 셀 */
+.calendar-cell {
+    position: relative;
+    min-height: 72px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    border: 1px solid var(--matcha-border);
+    padding: 6px 6px 4px;
+    text-align: left;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.calendar-cell:not(.calendar-cell-empty):hover {
+    border-color: var(--matcha-main);
+    background-color: var(--matcha-accent);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+}
+
+/* 오늘 날짜 */
+.calendar-cell.today {
+    border-color: var(--matcha-dark);
+    box-shadow: 0 0 0 1px rgba(78, 123, 79, 0.3);
+}
+
+/* 날짜 숫자 */
+.calendar-day-number {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--matcha-text-main);
+    margin-bottom: 4px;
+}
+
+/* 이벤트 표시 점 */
+.calendar-cell > div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.calendar-event-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background-color: var(--matcha-main-soft);
+}
+
+/* 기본: dinner = 말차 */
+.calendar-event-dinner {
+    background-color: var(--matcha-main);
+}
+
+/* trip 은 조금 더 진한 색 */
+.calendar-event-trip {
+    background-color: var(--matcha-dark);
+}
+
+/* 오른쪽 사이드 이벤트 리스트 */
+#event-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 이벤트 아이템 카드 */
+
+.event-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    background-color: #ffffff;
+    border: 1px solid var(--matcha-border);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.event-item:hover {
+    border-color: var(--matcha-main);
+    background-color: var(--matcha-accent);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+    transform: translateY(-1px);
+}
+
+/* 타입 색상 점 */
+.event-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    flex-shrink: 0;
+    background-color: var(--matcha-main-soft);
+}
+
+.event-type-dinner {
+    background-color: var(--matcha-main);
+}
+
+.event-type-trip {
+    background-color: var(--matcha-dark);
+}
+
+/* 텍스트 블록 */
+.event-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.event-title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.event-meta {
+    font-size: 12px;
+    color: var(--matcha-text-sub);
+}
+
+/* 우측 액션 영역 (알림 토글) */
+.event-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* 날짜별 약속 목록 모달 안에서 사용하는 리스트 */
+
+#day-events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.day-event-item {
+    width: 100%;
+    text-align: left;
+    border-radius: var(--radius-md);
+    padding: 8px 10px;
+    border: 1px solid var(--matcha-border);
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.day-event-item:hover {
+    border-color: var(--matcha-main);
+    background-color: var(--matcha-accent);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+    transform: translateY(-1px);
+}
+
+.day-event-title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.day-event-meta {
+    font-size: 12px;
+    color: var(--matcha-text-sub);
+}
+
+.day-events-empty {
+    font-size: 13px;
+    color: var(--matcha-text-sub);
+    text-align: center;
+    padding: 12px 0;
+}
+
+#day-events-date-label {
+    font-size: 15px;
+    font-weight: 600;
+}
