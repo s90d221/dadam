@@ -405,6 +405,10 @@ document.addEventListener("click", (e) => {
         return;
     }
     closeModal(targetId);
+
+    if (!isLoggedIn() && targetId && AUTH_MODAL_IDS.includes(targetId)) {
+        showIntroModal();
+    }
 });
 
 /* 모달 바깥 클릭 시 닫기 – auth는 로그인 전이면 유지 */
@@ -460,6 +464,21 @@ $("#open-profile")?.addEventListener("click", () => {
 $("#open-auth")?.addEventListener("click", () => {
     openModal("modal-login");
 });
+
+function showIntroModal(keepAuthOpen = false) {
+    const appEl = document.querySelector(".app");
+    if (appEl) {
+        appEl.classList.add("is-blurred");
+    }
+
+    if (!keepAuthOpen) {
+        closeModal("modal-login");
+    }
+    closeModal("modal-signup");
+    openModal(INTRO_MODAL_ID);
+}
+
+window.showIntroModal = showIntroModal;
 
 /* -----------------------------------------------------
    🧪 알림 테스트 함수 (디버깅용)
