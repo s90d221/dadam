@@ -1,6 +1,5 @@
 package com.example.dadambackend.domain.balance.service;
 
-import com.example.dadambackend.common.ai.AiClient;
 import com.example.dadambackend.domain.balance.dto.BalanceGameGenerationResult;
 import com.example.dadambackend.domain.balance.dto.BalanceGameTodayResponse;
 import com.example.dadambackend.domain.balance.dto.BalanceGameVoteRequest;
@@ -29,8 +28,8 @@ public class BalanceGameService {
     private final BalanceGameAiService balanceGameAiService;
     private final UserRepository userRepository;
 
-    // TODO: 인증 붙기 전까지 임시로 1번 유저 고정 사용
-    private static final Long TEMP_USER_ID = 1L;
+    // ✅ TEMP_USER_ID 제거
+    // private static final Long TEMP_USER_ID = 1L;
 
     /**
      * 오늘의 밸런스 게임 조회 (없으면 생성)
@@ -60,9 +59,10 @@ public class BalanceGameService {
      * 오늘 게임에 투표 (A/B)
      * - 이미 투표했다면 해당 row의 choice만 변경
      * - 여러 사용자가 투표하면 모두 DB에 기록, 응답에 함께 포함
+     * - ✅ currentUserId : JWT에서 꺼낸 "현재 로그인한 유저"의 ID
      */
     @Transactional
-    public BalanceGameTodayResponse voteToday(BalanceGameVoteRequest request) {
+    public BalanceGameTodayResponse voteToday(Long currentUserId, BalanceGameVoteRequest request) {
         String choice = request.getChoice();
         if (!"A".equalsIgnoreCase(choice) && !"B".equalsIgnoreCase(choice)) {
             throw new BusinessException(ErrorCode.INVALID_INPUT_VALUE);
@@ -86,8 +86,8 @@ public class BalanceGameService {
                     return balanceGameRepository.save(newGame);
                 });
 
-        // 임시: 항상 id=1 유저 사용 (DB에 app_user id=1 있어야 함)
-        User user = userRepository.findById(TEMP_USER_ID)
+        // ✅ JWT에서 받은 currentUserId 기준으로 실제 User 조회
+        User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
         // 이미 투표한 row가 있으면 choice만 변경, 없으면 새로 생성
