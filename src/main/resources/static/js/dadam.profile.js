@@ -153,10 +153,17 @@ async function updateProfile(formData) {
 
     const data = await res.json();
 
+    const updatedFamilyCode =
+        data.familyCode ?? profileFamilyCodeInput?.value?.trim() ?? "";
+    const mergedProfile = { ...data, familyCode: updatedFamilyCode };
+
     if (typeof setCurrentUser === "function") {
-        setCurrentUser(data);
+        setCurrentUser(mergedProfile);
     } else {
-        window.currentUser = { ...(window.currentUser || {}), ...data };
+        window.currentUser = {
+            ...(window.currentUser || {}),
+            ...mergedProfile,
+        };
     }
 
     if (profileFamilyCodeInput) {

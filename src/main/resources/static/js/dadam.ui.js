@@ -736,12 +736,6 @@ document.getElementById("open-invite")?.addEventListener("click", () => {
     }
 });
 
-document
-    .getElementById("open-question-archive")
-    ?.addEventListener("click", () => {
-        alert("질문 아카이브/선택 기능은 추후 구현될 예정입니다.");
-    });
-
 /* -----------------------------------------------------
    오늘 날짜 라벨 세팅 (히어로 상단)
 ----------------------------------------------------- */

@@ -77,6 +77,8 @@ const DADAM_KEYS = {
     EVENTS: "dadam_events",
 };
 
+const INTRO_MODAL_ID = "modal-intro";
+
 const AUTH_MODAL_IDS = ["modal-login", "modal-signup"];
 
 const $ = (selector) => document.querySelector(selector);
@@ -310,9 +312,10 @@ function setAuthUiState(loggedIn) {
     if (loggedIn) {
         appEl.classList.remove("is-blurred");
         AUTH_MODAL_IDS.forEach((id) => closeModal(id));
+        closeModal(INTRO_MODAL_ID);
     } else {
         appEl.classList.add("is-blurred");
-        openModal("modal-login");
+        showIntroModal(true);
     }
 }
 

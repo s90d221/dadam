@@ -165,6 +165,29 @@
         </div>
     </div>
 
+    <!-- ✨ 다담 인트로 / 로고 모달 -->
+    <div id="modal-intro" class="modal-backdrop">
+        <div class="modal intro-modal">
+            <div class="intro-hero">
+                <div class="logo-badge">
+                    <span class="logo-mark">茶</span>
+                    <div class="logo-text">
+                        <span class="logo-title">다담</span>
+                        <span class="logo-subtitle">우리 가족 대화 앨범</span>
+                    </div>
+                </div>
+                <p class="intro-tagline">
+                    가족의 이야기를 한데 모아 추억처럼 꺼내볼 수 있는 공간, 다담으로 초대합니다.
+                </p>
+            </div>
+            <div class="intro-actions">
+                <button class="btn btn-primary" type="button" id="intro-login-btn">로그인</button>
+                <button class="btn btn-ghost" type="button" id="intro-signup-btn">회원가입</button>
+            </div>
+            <p class="intro-helper">취소를 눌러도 언제든 다시 돌아올 수 있어요.</p>
+        </div>
+    </div>
+
     <!-- 👤 가족 프로필 상세 모달 -->
     <div id="modal-family-profile" class="modal-backdrop">
         <div class="modal">
@@ -219,7 +242,7 @@
                         <input id="login-password" class="input" type="password" name="password" required />
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-ghost" type="button" data-close-modal="modal-login">취소</button>
+                        <button class="btn btn-ghost" id="login-cancel-btn" type="button" data-close-modal="modal-login">취소</button>
                         <button class="btn btn-primary" type="submit">로그인</button>
                     </div>
                 </form>
@@ -257,7 +280,7 @@
                         <input id="signup-password" class="input" type="password" name="password" required />
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-ghost" type="button" data-close-modal="modal-signup">취소</button>
+                        <button class="btn btn-ghost" id="signup-cancel-btn" type="button" data-close-modal="modal-signup">취소</button>
                         <button class="btn btn-primary" type="submit">회원가입</button>
                     </div>
                 </form>
@@ -266,6 +289,58 @@
                     이미 계정이 있으신가요?
                     <button type="button" class="link-button" id="go-login-link">로그인</button>
                 </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🗂️ 과거 질문/답변 아카이브 모달 -->
+    <div id="modal-question-archive" class="modal-backdrop">
+        <div class="modal modal-wide">
+            <header class="modal-header">
+                <div>
+                    <p class="modal-eyebrow">추억 캘린더</p>
+                    <h2 class="modal-title">지난 질문 돌아보기</h2>
+                </div>
+                <button class="ghost-icon-btn" type="button" data-close-modal="modal-question-archive">
+                    <span class="fh-icon-close"></span>
+                </button>
+            </header>
+
+            <div class="modal-body archive-body">
+                <div class="archive-calendar">
+                    <div class="calendar-header">
+                        <button class="ghost-icon-btn" id="archive-calendar-prev" type="button" aria-label="이전 달">
+                            <span class="fh-icon-chevron-left"></span>
+                        </button>
+                        <div class="calendar-title" id="archive-calendar-title">2025년 11월</div>
+                        <button class="ghost-icon-btn" id="archive-calendar-next" type="button" aria-label="다음 달">
+                            <span class="fh-icon-chevron-right"></span>
+                        </button>
+                    </div>
+                    <div class="calendar-grid" id="archive-calendar-grid"></div>
+                    <p class="helper-text">날짜를 눌러 그날의 질문과 답변을 살펴보세요.</p>
+                </div>
+
+                <div class="archive-panel">
+                    <div class="archive-panel-header">
+                        <p class="field-label">선택한 날짜</p>
+                        <p class="field-value" id="archive-selected-date"></p>
+                    </div>
+                    <div class="archive-question-box">
+                        <p class="pill pill-soft">그날의 질문</p>
+                        <p class="archive-question" id="archive-question-text">날짜를 선택해 주세요.</p>
+                    </div>
+                    <div class="archive-answers">
+                        <div class="archive-answers-header">
+                            <h3 class="card-title">답변 &amp; 댓글</h3>
+                            <p class="helper-text" id="archive-answer-count"></p>
+                        </div>
+                        <ul class="answer-list" id="archive-answer-list"></ul>
+                        <div class="empty-placeholder" id="archive-empty-state">
+                            날짜를 선택하면 가족들이 남긴 답변과 댓글을 확인할 수 있어요.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -113,6 +113,16 @@ function normalizeFamilyMembers(rawList) {
     });
 }
 
+function filterMembersByMyFamilyCode(members) {
+    if (!Array.isArray(members) || members.length === 0) return [];
+
+    const myCode = (currentUser && currentUser.familyCode) || "";
+    if (!myCode) return members;
+
+    const filtered = members.filter((m) => (m.familyCode || "") === myCode);
+    return filtered.length > 0 ? filtered : members;
+}
+
 function syncFamilyGlobals(members) {
     latestFamilyMembers = members;
 
@@ -213,9 +223,10 @@ async function fetchAndRenderFamilyMembers() {
     try {
         const raw = await familyApiGet(FAMILY_MEMBERS_API_URL);
         const members = normalizeFamilyMembers(raw);
+        const filtered = filterMembersByMyFamilyCode(members);
 
-        syncFamilyGlobals(members);
-        renderFamilyGrid(members);
+        syncFamilyGlobals(filtered);
+        renderFamilyGrid(filtered);
     } catch (e) {
         console.error("[FAMILY] load error:", e);
 
@@ -255,7 +266,9 @@ async function openFamilyInviteModal() {
             familyApiGet(FAMILY_MEMBERS_API_URL),
         ]);
 
-        const members = normalizeFamilyMembers(familyRaw);
+        const members = filterMembersByMyFamilyCode(
+            normalizeFamilyMembers(familyRaw)
+        );
 
         if (inviteCodeInput) {
             inviteCodeInput.value = codeResp.familyCode || "";
