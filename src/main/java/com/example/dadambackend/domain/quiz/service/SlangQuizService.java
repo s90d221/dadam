@@ -42,8 +42,14 @@ public class SlangQuizService {
         // 오늘 퀴즈 조회 or 생성
         SlangQuiz quiz = getOrCreateQuizForDate(today);
 
+        User requester = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
         // 투표 + 유저 정보를 fetch join으로 한 번에 조회
-        List<SlangQuizVote> votes = slangQuizVoteRepository.findByQuizWithUser(quiz);
+        List<SlangQuizVote> votes = slangQuizVoteRepository.findByQuizWithUser(quiz)
+                .stream()
+                .filter(vote -> isSameFamily(vote.getUser(), requester.getFamilyCode()))
+                .toList();
 
         return SlangQuizTodayResponse.of(quiz, votes, currentUserId);
     }
@@ -89,7 +95,10 @@ public class SlangQuizService {
         }
 
         // 5) 최신 결과 반환 (user fetch join)
-        List<SlangQuizVote> votes = slangQuizVoteRepository.findByQuizWithUser(quiz);
+        List<SlangQuizVote> votes = slangQuizVoteRepository.findByQuizWithUser(quiz)
+                .stream()
+                .filter(v -> isSameFamily(v.getUser(), user.getFamilyCode()))
+                .toList();
         return SlangQuizTodayResponse.of(quiz, votes, userId);
     }
 
@@ -110,5 +119,13 @@ public class SlangQuizService {
                     SlangQuiz entity = SlangQuiz.of(date, generated);
                     return slangQuizRepository.save(entity);
                 });
+    }
+
+    private boolean isSameFamily(User target, String familyCode) {
+        return normalize(target.getFamilyCode()).equals(normalize(familyCode));
+    }
+
+    private String normalize(String code) {
+        return (code == null || code.isBlank()) ? "" : code.trim();
     }
 }

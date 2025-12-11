@@ -4,6 +4,9 @@ import com.example.dadambackend.domain.calendar.dto.request.ScheduleRequest;
 import com.example.dadambackend.domain.calendar.dto.response.ScheduleResponse;
 import com.example.dadambackend.domain.calendar.dto.response.ScheduleUpdateResponse;
 import com.example.dadambackend.domain.calendar.service.ScheduleService;
+import com.example.dadambackend.global.exception.BusinessException;
+import com.example.dadambackend.global.exception.ErrorCode;
+import com.example.dadambackend.security.JwtTokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +22,12 @@ import java.util.List;
         description = "가족 약속 등록, 조회, 수정, 취소 기능을 제공합니다."
 )
 @RestController
-@RequestMapping("/api/v1/schedules")
-@RequiredArgsConstructor
-public class ScheduleController {
+    @RequestMapping("/api/v1/schedules")
+    @RequiredArgsConstructor
+    public class ScheduleController {
 
-    private final ScheduleService scheduleService;
+        private final ScheduleService scheduleService;
+        private final JwtTokenProvider jwtTokenProvider;
 
     /**
      * POST /api/v1/schedules
@@ -45,8 +49,12 @@ public class ScheduleController {
             description = "약속 이름(title), 날짜(date), 시간(time), 장소(place), 메모(memo), 타입(type: dinner/trip), 알림 여부(remind)를 받아 일정을 등록합니다."
     )
     @PostMapping
-    public ResponseEntity<ScheduleResponse> createSchedule(@RequestBody ScheduleRequest request) {
-        ScheduleResponse response = scheduleService.createSchedule(request);
+    public ResponseEntity<ScheduleResponse> createSchedule(
+            @RequestBody ScheduleRequest request,
+            @RequestHeader("Authorization") String authHeader
+    ) {
+        Long userId = extractUserId(authHeader);
+        ScheduleResponse response = scheduleService.createSchedule(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -59,8 +67,11 @@ public class ScheduleController {
             description = "오늘을 기준으로 30일 이내에 있는 가족 약속들을 날짜순으로 조회합니다."
     )
     @GetMapping("/upcoming")
-    public ResponseEntity<List<ScheduleResponse>> getUpcomingSchedules() {
-        List<ScheduleResponse> response = scheduleService.getUpcomingSchedules();
+    public ResponseEntity<List<ScheduleResponse>> getUpcomingSchedules(
+            @RequestHeader("Authorization") String authHeader
+    ) {
+        Long userId = extractUserId(authHeader);
+        List<ScheduleResponse> response = scheduleService.getUpcomingSchedules(userId);
         return ResponseEntity.ok(response);
     }
 
@@ -78,9 +89,11 @@ public class ScheduleController {
     )
     @GetMapping
     public ResponseEntity<List<ScheduleResponse>> getSchedulesByDate(
-            @RequestParam(required = false) LocalDate date
+            @RequestParam(required = false) LocalDate date,
+            @RequestHeader("Authorization") String authHeader
     ) {
-        List<ScheduleResponse> response = scheduleService.getSchedulesByDate(date);
+        Long userId = extractUserId(authHeader);
+        List<ScheduleResponse> response = scheduleService.getSchedulesByDate(date, userId);
         return ResponseEntity.ok(response);
     }
 
@@ -93,8 +106,12 @@ public class ScheduleController {
             description = "일정 ID로 기존 일정 정보를 가져옵니다. 수정 모달/폼에 초기값으로 채워 넣을 때 사용합니다."
     )
     @GetMapping("/{scheduleId}")
-    public ResponseEntity<ScheduleUpdateResponse> getScheduleForUpdate(@PathVariable Long scheduleId) {
-        ScheduleUpdateResponse response = scheduleService.getScheduleForUpdate(scheduleId);
+    public ResponseEntity<ScheduleUpdateResponse> getScheduleForUpdate(
+            @PathVariable Long scheduleId,
+            @RequestHeader("Authorization") String authHeader
+    ) {
+        Long userId = extractUserId(authHeader);
+        ScheduleUpdateResponse response = scheduleService.getScheduleForUpdate(scheduleId, userId);
         return ResponseEntity.ok(response);
     }
 
@@ -112,9 +129,11 @@ public class ScheduleController {
     @PutMapping("/{scheduleId}")
     public ResponseEntity<ScheduleResponse> updateSchedule(
             @PathVariable Long scheduleId,
-            @RequestBody ScheduleRequest request
+            @RequestBody ScheduleRequest request,
+            @RequestHeader("Authorization") String authHeader
     ) {
-        ScheduleResponse response = scheduleService.updateSchedule(scheduleId, request);
+        Long userId = extractUserId(authHeader);
+        ScheduleResponse response = scheduleService.updateSchedule(scheduleId, userId, request);
         return ResponseEntity.ok(response);
     }
 
@@ -127,8 +146,23 @@ public class ScheduleController {
             description = "일정 ID로 특정 가족 약속을 삭제합니다."
     )
     @DeleteMapping("/{scheduleId}")
-    public ResponseEntity<Void> cancelSchedule(@PathVariable Long scheduleId) {
-        scheduleService.cancelSchedule(scheduleId);
+    public ResponseEntity<Void> cancelSchedule(
+            @PathVariable Long scheduleId,
+            @RequestHeader("Authorization") String authHeader
+    ) {
+        Long userId = extractUserId(authHeader);
+        scheduleService.cancelSchedule(scheduleId, userId);
         return ResponseEntity.noContent().build(); // 204 No Content
+    }
+
+    private Long extractUserId(String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new BusinessException(ErrorCode.UNAUTHORIZED);
+        }
+        String token = authHeader.substring(7);
+        if (!jwtTokenProvider.validateToken(token)) {
+            throw new BusinessException(ErrorCode.UNAUTHORIZED);
+        }
+        return jwtTokenProvider.getUserIdFromToken(token);
     }
 }

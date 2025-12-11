@@ -24,12 +24,11 @@ public class SlangQuizController {
     private final JwtTokenProvider jwtTokenProvider;
 
     /**
-     * 오늘자 퀴즈 조회 (로그인 안 해도 가능)
-     *  - 로그인 했으면 내 선택 인덱스 포함
+     * 오늘자 퀴즈 조회 (가족별로 분리)
      */
     @GetMapping("/today")
     public ResponseEntity<SlangQuizTodayResponse> getTodayQuiz(HttpServletRequest request) {
-        Long userId = extractUserIdOrNull(request);
+        Long userId = extractUserIdOrThrow(request);
         SlangQuizTodayResponse quiz = slangQuizService.getOrCreateTodayQuiz(userId);
         return ResponseEntity.ok(quiz);
     }
@@ -49,18 +48,6 @@ public class SlangQuizController {
     }
 
     /* =================== 헬퍼 =================== */
-
-    private Long extractUserIdOrNull(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return null;
-        }
-        String token = authHeader.substring(7);
-        if (!jwtTokenProvider.validateToken(token)) {
-            return null;
-        }
-        return jwtTokenProvider.getUserIdFromToken(token);
-    }
 
     private Long extractUserIdOrThrow(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");

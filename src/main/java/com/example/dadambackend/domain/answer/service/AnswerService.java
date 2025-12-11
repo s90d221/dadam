@@ -66,13 +66,19 @@ public class AnswerService {
      * @param questionId 질문 ID
      * @return 답변 목록 DTO
      */
-    public List<AnswerResponse> getAnswersByQuestionId(Long questionId) {
+    public List<AnswerResponse> getAnswersByQuestionId(Long questionId, Long requesterId) {
         // 질문 유효성 검사
         questionService.getQuestionById(questionId);
+
+        User requester = userRepository.findById(requesterId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        String familyCode = requester.getFamilyCode();
 
         List<Answer> answers = answerRepository.findByQuestionIdOrderByCreatedAtAsc(questionId);
 
         return answers.stream()
+                .filter(answer -> isSameFamily(answer.getUser(), familyCode))
                 .map(answer -> {
                     long commentCount = commentRepository.countByAnswerId(answer.getId());
                     return AnswerResponse.of(answer, commentCount);
@@ -148,5 +154,15 @@ public class AnswerService {
         // 현재 구조에 맞게 Comment 엔티티 / 매핑 확인 후 적용
 
         answerRepository.delete(answer);
+    }
+
+    private boolean isSameFamily(User target, String baseFamilyCode) {
+        String normalizedBase = normalize(baseFamilyCode);
+        String normalizedTarget = normalize(target.getFamilyCode());
+        return normalizedBase.equals(normalizedTarget);
+    }
+
+    private String normalize(String code) {
+        return (code == null || code.isBlank()) ? "" : code.trim();
     }
 }

@@ -39,8 +39,12 @@ public class AnswerController {
      * 특정 질문에 대한 답변 목록 조회
      */
     @GetMapping("/{questionId}/answers")
-    public ResponseEntity<?> getAnswers(@PathVariable Long questionId) {
-        return ResponseEntity.ok(answerService.getAnswersByQuestionId(questionId));
+    public ResponseEntity<?> getAnswers(
+            @PathVariable Long questionId,
+            @RequestHeader("Authorization") String authHeader
+    ) {
+        Long userId = extractUserId(authHeader);
+        return ResponseEntity.ok(answerService.getAnswersByQuestionId(questionId, userId));
     }
 
     /**

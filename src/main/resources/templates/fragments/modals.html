@@ -57,7 +57,10 @@
 
                     <!-- 👨‍👩‍👧 가족 코드 입력 영역 -->
                     <div class="field-group">
-                        <label class="field-label" for="family-code-input">가족 코드</label>
+                        <div class="field-row" style="justify-content: space-between; align-items: center;">
+                            <label class="field-label" for="family-code-input">가족 코드</label>
+                            <span class="helper-text" id="family-code-display"></span>
+                        </div>
                         <div class="field-row">
                             <input
                                     id="family-code-input"
@@ -74,6 +77,48 @@
                         <button class="btn btn-primary" type="submit">저장</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 👪 우리 가족 초대 코드 / 멤버 모달 -->
+    <div id="modal-invite" class="modal-backdrop">
+        <div class="modal">
+            <header class="modal-header">
+                <div>
+                    <p class="modal-eyebrow">우리 가족</p>
+                    <h2 class="modal-title">초대 코드</h2>
+                </div>
+                <button class="ghost-icon-btn" type="button" data-close-modal="modal-invite">
+                    <span class="fh-icon-close"></span>
+                </button>
+            </header>
+            <div class="modal-body">
+                <div class="field-group">
+                    <label class="field-label" for="invite-code-value">초대 코드</label>
+                    <div class="field-row">
+                        <input
+                                id="invite-code-value"
+                                class="input"
+                                type="text"
+                                readonly
+                                value=""
+                                placeholder="로그인 후 코드를 발급받아 주세요"
+                        />
+                        <button class="btn btn-primary" type="button" id="copy-invite-code">복사</button>
+                    </div>
+                    <p class="helper-text">가족에게 코드를 전달하면 동일한 가족 공간을 공유할 수 있어요.</p>
+                </div>
+
+                <div class="field-group">
+                    <div class="field-row" style="justify-content: space-between; align-items: center;">
+                        <label class="field-label" style="margin: 0;">가족 구성원</label>
+                        <span class="helper-text" id="invite-family-count"></span>
+                    </div>
+                    <div class="family-grid" id="invite-family-list">
+                        <!-- JS에서 렌더링 -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>

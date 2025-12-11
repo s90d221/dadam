@@ -10,6 +10,7 @@ import com.example.dadambackend.global.exception.BusinessException;
 import com.example.dadambackend.global.exception.ErrorCode;
 import com.example.dadambackend.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,13 +33,15 @@ public class AuthService {
             throw new BusinessException(ErrorCode.USER_ALREADY_EXIST);
         }
 
+        String familyCode = generateUniqueFamilyCode();
+
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .name(request.getName())
                 .avatarUrl(null)
                 .familyRole("child")   // 기본값
-                .familyCode(null)
+                .familyCode(familyCode)
                 .build();
 
         userRepository.save(user);
@@ -49,6 +52,18 @@ public class AuthService {
                 token,
                 UserProfileResponse.from(user)
         );
+    }
+
+    /**
+     * 회원가입 시 고유한 가족 코드를 생성합니다.
+     * - 패턴: "DADAM-" + 대문자/숫자 6자리
+     */
+    private String generateUniqueFamilyCode() {
+        String code;
+        do {
+            code = "DADAM-" + RandomStringUtils.randomAlphanumeric(6).toUpperCase();
+        } while (userRepository.existsByFamilyCode(code));
+        return code;
     }
 
     /**

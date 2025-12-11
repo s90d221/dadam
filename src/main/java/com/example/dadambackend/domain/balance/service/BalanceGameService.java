@@ -35,7 +35,7 @@ public class BalanceGameService {
      * 오늘의 밸런스 게임 조회 (없으면 생성)
      */
     @Transactional
-    public BalanceGameTodayResponse getOrCreateTodayGame() {
+    public BalanceGameTodayResponse getOrCreateTodayGame(Long currentUserId) {
         LocalDate today = LocalDate.now();
 
         BalanceGame game = balanceGameRepository.findByGameDate(today)
@@ -51,7 +51,16 @@ public class BalanceGameService {
                     return balanceGameRepository.save(newGame);
                 });
 
-        List<BalanceGameVote> votes = balanceGameVoteRepository.findByBalanceGame(game);
+        User requester = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        String familyCode = requester.getFamilyCode();
+
+        List<BalanceGameVote> votes = balanceGameVoteRepository.findByBalanceGame(game)
+                .stream()
+                .filter(vote -> isSameFamily(vote.getUser(), familyCode))
+                .toList();
+
         return BalanceGameTodayResponse.of(game, votes);
     }
 
@@ -101,8 +110,22 @@ public class BalanceGameService {
             vote.updateChoice(finalChoice);
         }
 
-        // 최신 투표 결과 반환
-        List<BalanceGameVote> votes = balanceGameVoteRepository.findByBalanceGame(game);
+        String familyCode = user.getFamilyCode();
+
+        // 최신 투표 결과 반환 (가족 코드 기준으로 제한)
+        List<BalanceGameVote> votes = balanceGameVoteRepository.findByBalanceGame(game)
+                .stream()
+                .filter(v -> isSameFamily(v.getUser(), familyCode))
+                .toList();
+
         return BalanceGameTodayResponse.of(game, votes);
+    }
+
+    private boolean isSameFamily(User user, String familyCode) {
+        return normalize(user.getFamilyCode()).equals(normalize(familyCode));
+    }
+
+    private String normalize(String code) {
+        return (code == null || code.isBlank()) ? "" : code.trim();
     }
 }

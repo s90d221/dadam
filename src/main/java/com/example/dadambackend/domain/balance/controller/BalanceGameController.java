@@ -24,8 +24,9 @@ public class BalanceGameController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/today")
-    public ResponseEntity<BalanceGameTodayResponse> getTodayGame() {
-        return ResponseEntity.ok(balanceGameService.getOrCreateTodayGame());
+    public ResponseEntity<BalanceGameTodayResponse> getTodayGame(HttpServletRequest request) {
+        Long currentUserId = extractUserIdOrThrow(request);
+        return ResponseEntity.ok(balanceGameService.getOrCreateTodayGame(currentUserId));
     }
 
     @PostMapping("/today/vote")

@@ -11,10 +11,10 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     /**
      * 오늘 ~ 30일 뒤까지 일정
      */
-    List<Schedule> findByDateBetweenOrderByDateAsc(LocalDate start, LocalDate end);
+    List<Schedule> findByFamilyCodeAndDateBetweenOrderByDateAsc(String familyCode, LocalDate start, LocalDate end);
 
     /**
      * 특정 날짜의 모든 일정
      */
-    List<Schedule> findByDate(LocalDate date);
+    List<Schedule> findByFamilyCodeAndDate(String familyCode, LocalDate date);
 }

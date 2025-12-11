@@ -33,9 +33,8 @@ public class UserService {
      * - familyCode 가 null 이면: 가족 코드는 변경하지 않음
      * - familyCode 가 ""(빈 문자열)이면: 가족 코드 해제
      * - familyCode 가 값이 있으면:
-     *      1) 해당 코드를 가진 유저가 실제로 존재해야 함
-     *      2) 있으면 나에게도 그 코드 부여
-     *      3) 없으면 BusinessException(INVALID_FAMILY_CODE) 발생
+     *      1) 해당 코드를 가진 유저가 있으면 그 가족에 합류
+     *      2) 없으면 내가 새 가족 코드의 최초 소유자가 됨
      */
     public User updateProfile(Long userId,
                               String name,
@@ -54,10 +53,13 @@ public class UserService {
                 // 비워서 보냈다면 가족 코드 제거 (원하지 않으면 이 부분 막으면 됨)
                 newFamilyCode = null;
             } else {
-                // 초대 코드를 실제로 가진 가족이 있는지 확인
-                User owner = userRepository.findByFamilyCode(normalized)
-                        .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_FAMILY_CODE));
-                newFamilyCode = owner.getFamilyCode(); // 정상 코드
+                // 이미 존재하는 코드면 해당 가족에 합류, 없으면 내가 새 코드의 소유자가 됨
+                User owner = userRepository.findByFamilyCode(normalized).orElse(null);
+                if (owner != null) {
+                    newFamilyCode = owner.getFamilyCode();
+                } else {
+                    newFamilyCode = normalized;
+                }
             }
         }
 

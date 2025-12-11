@@ -729,8 +729,11 @@ document.querySelectorAll(".nav-pill").forEach((pill) => {
 });
 
 document.getElementById("open-invite")?.addEventListener("click", () => {
-    const dummyCode = "DADAM-FA1234";
-    alert(`가족 초대 코드: ${dummyCode}\n복사해서 가족에게 보내 주세요.`);
+    if (typeof openFamilyInviteModal === "function") {
+        openFamilyInviteModal();
+    } else {
+        alert("초대 코드를 불러올 수 없습니다. 로그인 상태를 확인해 주세요.");
+    }
 });
 
 document

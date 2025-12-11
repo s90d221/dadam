@@ -11,6 +11,8 @@ const profileForm = document.getElementById("profile-form");
 const profileImageInput = document.getElementById("profile-image-input");
 const profileNameInput = document.getElementById("profile-name-input");
 const profileRoleInput = document.getElementById("profile-role-input");
+const profileFamilyCodeInput = document.getElementById("family-code-input");
+const profileFamilyCodeDisplay = document.getElementById("family-code-display");
 const profileAvatarPreview = document.getElementById("profile-avatar-preview");
 
 const headerAvatar = document.getElementById("current-avatar");
@@ -125,6 +127,14 @@ async function fetchProfile() {
     if (profileRoleInput) {
         profileRoleInput.value = currentUser?.familyRole || "child";
     }
+    if (profileFamilyCodeInput) {
+        profileFamilyCodeInput.value = currentUser?.familyCode || "";
+    }
+    if (profileFamilyCodeDisplay) {
+        profileFamilyCodeDisplay.textContent = currentUser?.familyCode
+            ? `내 코드: ${currentUser.familyCode}`
+            : "코드 없음";
+    }
 
     updateAvatarVisuals();
 }
@@ -147,6 +157,19 @@ async function updateProfile(formData) {
         setCurrentUser(data);
     } else {
         window.currentUser = { ...(window.currentUser || {}), ...data };
+    }
+
+    if (profileFamilyCodeInput) {
+        profileFamilyCodeInput.value = currentUser?.familyCode || "";
+    }
+    if (profileFamilyCodeDisplay) {
+        profileFamilyCodeDisplay.textContent = currentUser?.familyCode
+            ? `내 코드: ${currentUser.familyCode}`
+            : "코드 없음";
+    }
+
+    if (typeof fetchAndRenderFamilyMembers === "function") {
+        fetchAndRenderFamilyMembers();
     }
 
     updateAvatarVisuals();
@@ -220,16 +243,9 @@ profileForm?.addEventListener("submit", (e) => {
     formData.append("familyRole", profileRoleInput.value);
 
     // 🔹 가족 코드 입력값
-    const familyCodeInput = document.getElementById("family-code-input");
-    if (familyCodeInput) {
-        const rawCode = familyCodeInput.value.trim();
-
-        // ✅ 비어 있지 않을 때만 서버로 전송
-        if (rawCode !== "") {
-            formData.append("familyCode", rawCode);
-        }
-        // 비어 있으면 familyCode를 아예 보내지 않으므로
-        // 백엔드에서는 기존 familyCode를 그대로 유지하게 됨
+    if (profileFamilyCodeInput) {
+        const rawCode = profileFamilyCodeInput.value.trim();
+        formData.append("familyCode", rawCode);
     }
 
     updateProfile(formData);
