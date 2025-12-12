@@ -33,14 +33,18 @@ public class AuthService {
             throw new BusinessException(ErrorCode.USER_ALREADY_EXIST);
         }
 
-        String familyCode = generateUniqueFamilyCode();
+        String familyCode = resolveFamilyCode(request.getFamilyCode());
+
+        String familyRole = (request.getFamilyRole() == null || request.getFamilyRole().isBlank())
+                ? "child"
+                : request.getFamilyRole();
 
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .name(request.getName())
                 .avatarUrl(null)
-                .familyRole("child")   // 기본값
+                .familyRole(familyRole)
                 .familyCode(familyCode)
                 .build();
 
@@ -64,6 +68,23 @@ public class AuthService {
             code = "DADAM-" + RandomStringUtils.randomAlphanumeric(6).toUpperCase();
         } while (userRepository.existsByFamilyCode(code));
         return code;
+    }
+
+    /**
+     * 회원가입 시 가족 코드 적용 로직
+     * - 코드가 없으면 새 가족 코드를 부여
+     * - 코드가 있으면 기존 코드(이미 존재한다면 해당 가족)에 합류, 없으면 그대로 새 코드로 사용
+     */
+    private String resolveFamilyCode(String rawCode) {
+        if (rawCode == null || rawCode.isBlank()) {
+            return generateUniqueFamilyCode();
+        }
+
+        String normalized = rawCode.trim().toUpperCase();
+
+        return userRepository.findByFamilyCode(normalized)
+                .map(User::getFamilyCode)
+                .orElse(normalized);
     }
 
     /**

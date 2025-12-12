@@ -218,6 +218,8 @@ signupForm?.addEventListener("submit", async (e) => {
     const name = signupNameInput?.value.trim();
     const email = signupEmailInput?.value.trim();
     const password = signupPasswordInput?.value.trim();
+    const familyRole = document.getElementById("signup-role")?.value || "child";
+    const familyCode = document.getElementById("signup-family-code")?.value.trim();
 
     if (!name || !email || !password) {
         alert("이름, 이메일, 비밀번호를 모두 입력해 주세요.");
@@ -230,7 +232,13 @@ signupForm?.addEventListener("submit", async (e) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ name, email, password }),
+            body: JSON.stringify({
+                name,
+                email,
+                password,
+                familyRole,
+                familyCode,
+            }),
         });
 
         if (!res.ok) {

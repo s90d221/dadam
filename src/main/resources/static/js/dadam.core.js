@@ -52,13 +52,16 @@ async function authPost(path, payload) {
             throw new Error("응답을 읽는 중 문제가 발생했어요.");
         }
     } catch (networkErr) {
+        const fallbackMsg =
+            networkErr?.message || "네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.";
+
         addNotification?.({
             type: "error",
-            message: msg, // 👈 알림 팝업 (Notification) 출력
+            message: fallbackMsg, // 👈 알림 팝업 (Notification) 출력
         });
 
         // 💡 예외를 던짐 (dadam.auth.js의 catch 블록으로 전달됨)
-        throw new Error(`Auth ${path} 실패: ${msg}`);
+        throw new Error(`Auth ${path} 실패: ${fallbackMsg}`);
     }
 }
 
@@ -270,6 +273,10 @@ function applyCurrentUserToHeader() {
 
     avatarWrapper.innerHTML = html;
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    applyCurrentUserToHeader();
+});
 
 /* -----------------------------------------------------
    💾 로컬스토리지 헬퍼
@@ -602,6 +609,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const name = document.getElementById("signup-name").value.trim();
         const email = document.getElementById("signup-email").value.trim();
         const password = document.getElementById("signup-password").value;
+        const familyRole = document.getElementById("signup-role")?.value || "child";
+        const familyCode = document.getElementById("signup-family-code")?.value.trim();
 
         if (!name || !email || !password) {
             addNotification?.({
@@ -612,7 +621,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const data = await authPost("/auth/signup", { name, email, password });
+            const data = await authPost("/auth/signup", {
+                name,
+                email,
+                password,
+                familyRole,
+                familyCode,
+            });
 
             // 🔥 새 계정 시작이니까 기존 데이터 제거
             clearUserScopedStorage();

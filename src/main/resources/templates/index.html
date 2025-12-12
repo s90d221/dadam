@@ -573,6 +573,24 @@
                     <label class="field-label" for="signup-password">비밀번호</label>
                     <input id="signup-password" class="input" type="password" name="password" required />
                 </div>
+                <div class="field-group">
+                    <label class="field-label" for="signup-role">가족 내 역할</label>
+                    <select id="signup-role" class="input" name="familyRole">
+                        <option value="parent">부모</option>
+                        <option value="child" selected>자녀</option>
+                        <option value="grandparent">조부모</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label class="field-label" for="signup-family-code">가족 초대 코드 (선택)</label>
+                    <input
+                            id="signup-family-code"
+                            class="input"
+                            type="text"
+                            name="familyCode"
+                            placeholder="예: DADAM-ABCD12"
+                    />
+                </div>
                 <div class="modal-footer">
                     <button class="btn btn-ghost" type="button" data-close-modal="modal-signup">취소</button>
                     <button class="btn btn-primary" type="submit">회원가입</button>

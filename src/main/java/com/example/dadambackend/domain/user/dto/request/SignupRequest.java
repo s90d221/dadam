@@ -14,5 +14,11 @@ public class SignupRequest {
     
     @Schema(description = "이름", example = "홍길동", required = true)
     private String name;
+
+    @Schema(description = "가족 내 역할", example = "parent", required = false)
+    private String familyRole;
+
+    @Schema(description = "가족 코드(초대코드)", example = "DADAM-ABCD12", required = false)
+    private String familyCode;
 }
 
