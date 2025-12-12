@@ -446,11 +446,12 @@
                 </div>
 
                 <div class="field-group">
-                    <label class="field-label" for="profile-role-input">역할</label>
+                    <label class="field-label" for="profile-role-input">역할 (선택)</label>
                     <select id="profile-role-input" class="select">
-                        <option value="child">자녀</option>
-                        <option value="parent">부모</option>
+                        <option value="">선택하지 않음</option>
                         <option value="grandparent">조부모</option>
+                        <option value="parent">부모</option>
+                        <option value="child">자녀</option>
                     </select>
                 </div>
 
@@ -572,14 +573,6 @@
                 <div class="field-group">
                     <label class="field-label" for="signup-password">비밀번호</label>
                     <input id="signup-password" class="input" type="password" name="password" required />
-                </div>
-                <div class="field-group">
-                    <label class="field-label" for="signup-role">가족 내 역할</label>
-                    <select id="signup-role" class="input" name="familyRole">
-                        <option value="parent">부모</option>
-                        <option value="child" selected>자녀</option>
-                        <option value="grandparent">조부모</option>
-                    </select>
                 </div>
                 <div class="field-group">
                     <label class="field-label" for="signup-family-code">가족 초대 코드 (선택)</label>

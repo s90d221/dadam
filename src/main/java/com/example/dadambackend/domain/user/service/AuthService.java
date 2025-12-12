@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -23,6 +25,8 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+
+    private static final Set<String> ALLOWED_ROLES = Set.of("child", "parent", "grandparent");
 
     /**
      * 회원가입 + 바로 로그인 상태로 토큰/유저 정보 리턴
@@ -35,9 +39,7 @@ public class AuthService {
 
         String familyCode = resolveFamilyCode(request.getFamilyCode());
 
-        String familyRole = (request.getFamilyRole() == null || request.getFamilyRole().isBlank())
-                ? "child"
-                : request.getFamilyRole();
+        String familyRole = normalizeFamilyRole(request.getFamilyRole());
 
         User user = User.builder()
                 .email(request.getEmail())
@@ -85,6 +87,19 @@ public class AuthService {
         return userRepository.findByFamilyCode(normalized)
                 .map(User::getFamilyCode)
                 .orElse(normalized);
+    }
+
+    private String normalizeFamilyRole(String rawRole) {
+        if (rawRole == null || rawRole.isBlank()) {
+            return null;
+        }
+
+        String normalized = rawRole.trim().toLowerCase();
+        if (!ALLOWED_ROLES.contains(normalized)) {
+            throw new BusinessException(ErrorCode.INVALID_REQUEST);
+        }
+
+        return normalized;
     }
 
     /**

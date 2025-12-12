@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +19,8 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    private static final Set<String> ALLOWED_ROLES = Set.of("child", "parent", "grandparent");
 
     /**
      * 공통 유저 조회
@@ -45,6 +48,7 @@ public class UserService {
         User user = getById(userId);
 
         String newFamilyCode = user.getFamilyCode();
+        String normalizedRole = normalizeFamilyRole(familyRole);
 
         if (familyCode != null) {
             String normalized = normalizeFamilyCode(familyCode);
@@ -63,7 +67,7 @@ public class UserService {
             }
         }
 
-        user.updateProfile(name, familyRole, newFamilyCode, avatarUrl);
+        user.updateProfile(name, normalizedRole, newFamilyCode, avatarUrl);
         return user;
     }
 
@@ -112,6 +116,24 @@ public class UserService {
         String trimmed = code.trim();
         if (trimmed.isEmpty()) return null;
         return trimmed.toUpperCase();
+    }
+
+    private String normalizeFamilyRole(String familyRole) {
+        if (familyRole == null) {
+            return null;
+        }
+
+        String trimmed = familyRole.trim();
+        if (trimmed.isEmpty()) {
+            return null;
+        }
+
+        String normalized = trimmed.toLowerCase();
+        if (!ALLOWED_ROLES.contains(normalized)) {
+            throw new BusinessException(ErrorCode.INVALID_REQUEST);
+        }
+
+        return normalized;
     }
 
     // ⚠️ 회원가입/로그인 로직은 AuthService 로 분리 (여기에 두지 않음)

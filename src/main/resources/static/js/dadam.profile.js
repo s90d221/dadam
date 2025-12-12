@@ -19,7 +19,7 @@ const headerAvatar = document.getElementById("current-avatar");
 const headerUsername = document.getElementById("current-username");
 
 function normalizeFamilyCode(value) {
-    return (value ?? "").toString().trim();
+    return (value ?? "").toString().trim().toUpperCase();
 }
 
 /* -----------------------------------------------------
@@ -129,7 +129,7 @@ async function fetchProfile() {
         profileNameInput.value = currentUser?.name || "";
     }
     if (profileRoleInput) {
-        profileRoleInput.value = currentUser?.familyRole || "child";
+        profileRoleInput.value = currentUser?.familyRole || "";
     }
     if (profileFamilyCodeInput) {
         profileFamilyCodeInput.value = normalizeFamilyCode(
@@ -189,6 +189,11 @@ async function updateProfile(formData) {
     }
 
     updateAvatarVisuals();
+
+    addNotification?.({
+        type: "info",
+        message: "프로필을 저장했어요.",
+    });
 
     return data;
 }
@@ -258,7 +263,11 @@ profileForm?.addEventListener("submit", async (e) => {
 
     const formData = new FormData();
     formData.append("name", profileNameInput.value.trim());
-    formData.append("familyRole", profileRoleInput.value);
+
+    const selectedRole = profileRoleInput.value;
+    if (selectedRole) {
+        formData.append("familyRole", selectedRole);
+    }
 
     // 🔹 가족 코드 입력값
     if (profileFamilyCodeInput) {

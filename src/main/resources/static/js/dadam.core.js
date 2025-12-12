@@ -218,8 +218,8 @@ function loadUserProfile() {
         id: null,
         name: "우리 가족",
         avatarUrl: null,
-        role: "child",
-        familyRole: "child",
+        role: null,
+        familyRole: null,
         familyCode: "",
         email: "",
     };
@@ -240,8 +240,8 @@ function setCurrentUser(profile) {
             profile.profileImageUrl ??
             currentUser.avatarUrl ??
             null,
-        role: profile.role ?? profile.familyRole ?? currentUser.role ?? "child",
-        familyRole: profile.familyRole ?? currentUser.familyRole ?? "child",
+        role: profile.role ?? profile.familyRole ?? currentUser.role ?? null,
+        familyRole: profile.familyRole ?? currentUser.familyRole ?? null,
         familyCode: profile.familyCode ?? currentUser.familyCode ?? "",
         email: profile.email ?? currentUser.email ?? "",
     };
@@ -524,142 +524,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // ✅ 로그아웃 후 퀴즈 상태도 초기화 (다음 로그인 계정 기준으로 다시 로드)
         if (typeof window.resetQuizForCurrentUser === "function") {
             window.resetQuizForCurrentUser();
-        }
-    });
-});
-
-/* -----------------------------------------------------
-   🔐 로그인 / 회원가입 폼 처리
------------------------------------------------------ */
-
-document.addEventListener("DOMContentLoaded", () => {
-    const loginForm = document.getElementById("login-form");
-    const signupForm = document.getElementById("signup-form");
-
-    const goSignupLink = document.getElementById("go-signup-link");
-    const goLoginLink = document.getElementById("go-login-link");
-
-    goSignupLink?.addEventListener("click", () => {
-        closeModal("modal-login");
-        openModal("modal-signup");
-    });
-
-    goLoginLink?.addEventListener("click", () => {
-        closeModal("modal-signup");
-        openModal("modal-login");
-    });
-
-    // 🔹 로그인 폼 submit
-    loginForm?.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const email = document.getElementById("login-email").value.trim();
-        const password = document.getElementById("login-password").value;
-
-        if (!email || !password) {
-            addNotification?.({
-                type: "error",
-                message: "이메일과 비밀번호를 입력해 주세요.",
-            });
-            return;
-        }
-
-        try {
-            const data = await authPost("/auth/login", { email, password });
-
-            // 🔥 계정 교체 시 이전 사용자 데이터 초기화
-            clearUserScopedStorage();
-
-            setAuthToken(data.token);
-            if (data.user) {
-                setCurrentUser(data.user);
-            }
-
-            setAuthUiState(true);
-            closeModal("modal-login");
-            closeModal("modal-signup");
-
-            addNotification?.({
-                type: "info",
-                message: "로그인 되었어요.",
-            });
-
-            if (typeof fetchProfile === "function") {
-                fetchProfile();
-            }
-            if (typeof fetchAndRenderFamilyMembers === "function") {
-                fetchAndRenderFamilyMembers();
-            }
-
-            // ✅ 로그인 성공 후 퀴즈 상태 리셋 & 현재 계정 기준으로 다시 로드
-            if (typeof window.resetQuizForCurrentUser === "function") {
-                window.resetQuizForCurrentUser();
-            }
-        } catch (err) {
-            console.error("[LOGIN] failed:", err);
-            // 💡 [수정됨] 이 catch 블록에서 알림을 띄우는 코드를 제거합니다.
-            //    (알림은 authPost에서 이미 처리했기 때문)
-        }
-    });
-
-    // 🔹 회원가입 폼 submit
-    signupForm?.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const name = document.getElementById("signup-name").value.trim();
-        const email = document.getElementById("signup-email").value.trim();
-        const password = document.getElementById("signup-password").value;
-        const familyRole = document.getElementById("signup-role")?.value || "child";
-        const familyCode = document.getElementById("signup-family-code")?.value.trim();
-
-        if (!name || !email || !password) {
-            addNotification?.({
-                type: "error",
-                message: "이름, 이메일, 비밀번호를 모두 입력해 주세요.",
-            });
-            return;
-        }
-
-        try {
-            const data = await authPost("/auth/signup", {
-                name,
-                email,
-                password,
-                familyRole,
-                familyCode,
-            });
-
-            // 🔥 새 계정 시작이니까 기존 데이터 제거
-            clearUserScopedStorage();
-
-            setAuthToken(data.token);
-            if (data.user) {
-                setCurrentUser(data.user);
-            }
-
-            setAuthUiState(true);
-            closeModal("modal-signup");
-            closeModal("modal-login");
-
-            addNotification?.({
-                type: "info",
-                message: "회원가입이 완료되었어요. 환영합니다!",
-            });
-
-            if (typeof fetchProfile === "function") {
-                fetchProfile();
-            }
-            if (typeof fetchAndRenderFamilyMembers === "function") {
-                fetchAndRenderFamilyMembers();
-            }
-
-            // ✅ 회원가입 후 로그인 상태로 들어왔으니 퀴즈도 현재 계정 기준으로 초기화
-            if (typeof window.resetQuizForCurrentUser === "function") {
-                window.resetQuizForCurrentUser();
-            }
-        } catch (err) {
-            console.error("[SIGNUP] failed:", err);
-            // 💡 [수정됨] 이 catch 블록에서 알림을 띄우는 코드를 제거합니다.
         }
     });
 });

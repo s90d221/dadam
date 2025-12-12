@@ -158,6 +158,10 @@ function handleAuthSuccess(data, message) {
         if (typeof fetchAndRenderFamilyMembers === "function") {
             fetchAndRenderFamilyMembers();
         }
+
+        if (typeof updateAvatarVisuals === "function") {
+            updateAvatarVisuals();
+        }
     } catch (err) {
         console.error("[AUTH] handleAuthSuccess error:", err);
     }
@@ -218,7 +222,6 @@ signupForm?.addEventListener("submit", async (e) => {
     const name = signupNameInput?.value.trim();
     const email = signupEmailInput?.value.trim();
     const password = signupPasswordInput?.value.trim();
-    const familyRole = document.getElementById("signup-role")?.value || "child";
     const familyCode = document.getElementById("signup-family-code")?.value.trim();
 
     if (!name || !email || !password) {
@@ -236,7 +239,6 @@ signupForm?.addEventListener("submit", async (e) => {
                 name,
                 email,
                 password,
-                familyRole,
                 familyCode,
             }),
         });
@@ -245,10 +247,24 @@ signupForm?.addEventListener("submit", async (e) => {
             const text = await res.text().catch(() => "");
             console.error("[AUTH] signup failed:", res.status, text);
 
-            if (res.status === 409 || text.includes("이미")) {
+            const messageFromServer = (() => {
+                try {
+                    const parsed = JSON.parse(text);
+                    return parsed.message || parsed.errorCode || "";
+                } catch (err) {
+                    return "";
+                }
+            })();
+
+            if (res.status === 409 || messageFromServer.includes("이미")) {
                 alert("이미 가입된 이메일입니다.");
+            } else if (res.status >= 500) {
+                alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
             } else {
-                alert("회원가입 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+                alert(
+                    messageFromServer ||
+                    "회원가입 중 오류가 발생했습니다. 입력 정보를 다시 확인해 주세요."
+                );
             }
             return;
         }
