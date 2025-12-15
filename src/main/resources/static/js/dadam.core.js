@@ -100,10 +100,11 @@ function clearUserScopedStorage() {
         DADAM_KEYS.BALANCE_GAME,
         DADAM_KEYS.QUIZ_STATE,
         DADAM_KEYS.EVENTS,
+        DADAM_KEYS.NOTIFICATIONS,
     ];
 
     userScopedKeys.forEach((key) => {
-        delete memoryStore[key];
+        clearPersistedKey(key);
     });
 }
 
@@ -250,6 +251,8 @@ function setCurrentUser(profile = {}) {
     };
 
     applyCurrentUserToHeader();
+
+    save(DADAM_KEYS.USER_PROFILE, currentUser);
 }
 
 function applyCurrentUserToHeader() {
@@ -286,13 +289,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function save(key, value) {
     memoryStore[key] = value;
+
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (err) {
+        console.warn("[storage] save failed", err);
+    }
 }
 
 function load(key, fallback = null) {
     if (Object.prototype.hasOwnProperty.call(memoryStore, key)) {
         return memoryStore[key];
     }
+
+    try {
+        const raw = localStorage.getItem(key);
+        if (raw !== null) {
+            const parsed = JSON.parse(raw);
+            memoryStore[key] = parsed;
+            return parsed;
+        }
+    } catch (err) {
+        console.warn("[storage] load failed", err);
+    }
+
     return fallback;
+}
+
+function clearPersistedKey(key) {
+    delete memoryStore[key];
+    try {
+        localStorage.removeItem(key);
+    } catch (err) {
+        console.warn("[storage] remove failed", err);
+    }
 }
 
 /* -----------------------------------------------------
@@ -302,11 +332,21 @@ function load(key, fallback = null) {
 let authToken = null;
 
 function getAuthToken() {
+    if (authToken) return authToken;
+
+    const stored = load(DADAM_KEYS.AUTH_TOKEN, null);
+    authToken = stored || null;
     return authToken;
 }
 
 function setAuthToken(token) {
     authToken = token || null;
+
+    if (authToken) {
+        save(DADAM_KEYS.AUTH_TOKEN, authToken);
+    } else {
+        clearPersistedKey(DADAM_KEYS.AUTH_TOKEN);
+    }
 }
 
 function isLoggedIn() {
@@ -324,7 +364,8 @@ function setAuthUiState(loggedIn) {
         closeModal(INTRO_MODAL_ID);
     } else {
         appEl.classList.add("is-blurred");
-        showIntroModal(true);
+        closeModal(INTRO_MODAL_ID);
+        openModal("modal-login");
     }
 }
 
@@ -346,6 +387,7 @@ function addNotification({ type = "info", message }) {
     save(DADAM_KEYS.NOTIFICATIONS, list);
 
     showNotificationBadge(true);
+    renderActivityList();
 }
 
 function showNotificationBadge(active) {
@@ -380,6 +422,50 @@ function renderNotifications() {
         .join("");
 
     showNotificationBadge(false);
+}
+
+function renderActivityList(limit = 5) {
+    const list = load(DADAM_KEYS.NOTIFICATIONS, []);
+    const container = document.getElementById("activity-list");
+    if (!container) return;
+
+    if (!list || list.length === 0) {
+        container.innerHTML = `
+      <li class="activity-item activity-empty">
+        <div class="activity-text">
+          <p class="activity-title">아직 표시할 활동이 없어요.</p>
+          <p class="activity-meta">가족과 함께 첫 활동을 남겨 보세요.</p>
+        </div>
+      </li>
+    `;
+        return;
+    }
+
+    const iconMap = {
+        success: "✔",
+        error: "!",
+        danger: "!",
+        warning: "!",
+        info: "茶",
+    };
+
+    container.innerHTML = list
+        .slice(0, limit)
+        .map((item) => {
+            const symbol = iconMap[item.type] || "茶";
+            const toneClass = item.type ? `activity-${item.type}` : "";
+
+            return `
+        <li class="activity-item ${toneClass}">
+          <span class="activity-icon">${symbol}</span>
+          <div class="activity-text">
+            <p class="activity-title">${item.message}</p>
+            <p class="activity-meta">${item.time}</p>
+          </div>
+        </li>
+      `;
+        })
+        .join("");
 }
 
 /* -----------------------------------------------------
@@ -427,6 +513,7 @@ document.addEventListener("click", (e) => {
 document.addEventListener("click", (e) => {
     if (!e.target.classList.contains("modal-backdrop")) return;
     if (AUTH_MODAL_IDS.includes(e.target.id) && !isLoggedIn()) return;
+    if (e.target.id === INTRO_MODAL_ID && !isLoggedIn()) return;
     e.target.classList.remove("is-active");
 });
 
@@ -506,10 +593,23 @@ window.dadamNotify = function (msg) {
 ----------------------------------------------------- */
 
 document.addEventListener("DOMContentLoaded", () => {
-    applyCurrentUserToHeader();
+    const persistedToken = load(DADAM_KEYS.AUTH_TOKEN, null);
+    if (persistedToken) {
+        authToken = persistedToken;
+    }
+
+    const persistedUser = load(DADAM_KEYS.USER_PROFILE, null);
+    if (persistedUser) {
+        currentUser = { ...defaultProfile, ...persistedUser };
+        applyCurrentUserToHeader();
+    } else {
+        applyCurrentUserToHeader();
+    }
 
     // 처음 진입 시: 로그인 안 돼 있으면 블러 + 로그인 모달
     setAuthUiState(isLoggedIn());
+
+    renderActivityList();
 
     const logoutBtn = document.getElementById("logout-btn");
     logoutBtn?.addEventListener("click", () => {
@@ -523,6 +623,8 @@ document.addEventListener("DOMContentLoaded", () => {
             type: "info",
             message: "로그아웃되었어요.",
         });
+
+        renderActivityList();
 
         // ✅ 로그아웃 후 퀴즈 상태도 초기화 (다음 로그인 계정 기준으로 다시 로드)
         if (typeof window.resetQuizForCurrentUser === "function") {
