@@ -140,8 +140,6 @@ main, header, section, aside {
     border: 1px solid rgba(139, 92, 59, 0.2);
     cursor: pointer;
     transition: background 0.2s ease;
-    max-width: 240px;
-    min-width: 0;
 }
 
 .avatar-chip:hover { background: rgba(139, 92, 59, 0.18); }
@@ -149,14 +147,7 @@ main, header, section, aside {
 .avatar-sm { width: 34px; height: 34px; font-size: 15px; }
 .avatar-lg { width: 64px; height: 64px; font-size: 22px; }
 .avatar-soft { background: rgba(107, 133, 93, 0.15); color: #4b6645; }
-.avatar-name {
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 140px;
-    font-size: 14px;
-}
+.avatar-name { font-weight: 600; }
 
 .main-layout {
     display: grid;
