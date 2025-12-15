@@ -45,6 +45,13 @@ body {
     overflow: hidden;
 }
 
+.app.is-blurred {
+    filter: blur(6px);
+    pointer-events: none;
+    user-select: none;
+    transition: filter 0.2s ease;
+}
+
 /* 장식 요소 */
 .bg-ornaments {
     position: absolute;
@@ -184,7 +191,7 @@ main, header, section, aside {
 
 .card-header, .question-main, .balance-body, .quiz-body { position: relative; z-index: 1; }
 .card-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.card-header-left { display: flex; align-items: center; gap: 12px; }
+.card-header-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
 .card-title { margin: 0; font-size: 20px; font-weight: 700; }
 .card-subtitle { margin: 4px 0 0; color: var(--text-soft); font-size: 14px; }
 .card-header-right { display: flex; align-items: center; gap: 8px; }
@@ -342,6 +349,26 @@ main, header, section, aside {
     border: 1px solid var(--line);
     background: rgba(255,255,255,0.9);
 }
+.activity-item { display: flex; align-items: flex-start; gap: 10px; }
+.activity-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+}
+.activity-item.activity-success .activity-icon { background: rgba(76, 175, 80, 0.18); color: #2d7a33; }
+.activity-item.activity-error .activity-icon,
+.activity-item.activity-danger .activity-icon { background: rgba(228, 93, 72, 0.18); color: var(--danger); }
+.activity-item.activity-warning .activity-icon { background: rgba(241, 196, 15, 0.2); color: #7a5b00; }
+.activity-text { display: flex; flex-direction: column; gap: 2px; }
+.activity-title { margin: 0; font-weight: 700; }
+.activity-meta { margin: 0; color: var(--text-soft); font-size: 12px; }
+.activity-empty { text-align: left; }
 
 .calendar-shell { background: rgba(255,255,255,0.8); border: 1px solid var(--line); border-radius: 12px; padding: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.8); }
 .calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }

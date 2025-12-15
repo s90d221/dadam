@@ -332,8 +332,8 @@ async function fetchTodayQuiz() {
         const msg = String(err.message || "");
 
         if (msg.includes("401")) {
-            if (quizQuestionEl) {
-                quizQuestionEl.textContent = "로그인이 필요해요. 먼저 로그인해 주세요.";
+            if (typeof setAuthUiState === "function") {
+                setAuthUiState(false);
             }
             return;
         }
@@ -378,7 +378,9 @@ async function sendQuizVote(choiceIndex) {
         const msg = String(err.message || "");
 
         if (msg.includes("401")) {
-            alert("로그인이 필요해요. 먼저 로그인해 주세요.");
+            if (typeof setAuthUiState === "function") {
+                setAuthUiState(false);
+            }
         } else if (msg.includes("이미") || msg.includes("ALREADY_PARTICIPATED")) {
             alert("이미 오늘 퀴즈에 참여하셨어요.");
             fetchTodayQuiz();
@@ -412,11 +414,12 @@ function resetQuizForCurrentUser() {
 
     // 토큰이 없으면 로그인 안내만 표시
     if (!token) {
-        if (quizQuestionEl) {
-            quizQuestionEl.textContent = "로그인이 필요해요. 먼저 로그인해 주세요.";
-        }
         if (quizCheckBtn) {
             quizCheckBtn.style.display = "none";
+        }
+
+        if (typeof setAuthUiState === "function") {
+            setAuthUiState(false);
         }
         return;
     }
