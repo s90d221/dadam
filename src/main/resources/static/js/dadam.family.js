@@ -186,9 +186,11 @@ function buildFamilyCellHtml(member) {
 
     return `
       <button class="family-cell" type="button" data-user-id="${userId}">
-        ${avatarHtml}
-        <span class="family-name">${displayName}</span>
-<!--        <span class="family-role-badge">${roleLabel}</span>-->
+        <span class="family-cell-avatar">${avatarHtml}</span>
+        <span class="family-meta">
+          <span class="family-name">${displayName}</span>
+          <span class="family-role-badge">${roleLabel}</span>
+        </span>
       </button>
     `;
 }

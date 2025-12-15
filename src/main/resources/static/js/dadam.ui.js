@@ -95,6 +95,14 @@ function parseDateKey(dateKey) {
     return new Date(y, m - 1, d);
 }
 
+function isUpcomingDate(dateKey) {
+    if (!dateKey) return false;
+    const target = parseDateKey(dateKey);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return target >= today;
+}
+
 /* 보기용: "2025-12-10" → "2025년 12월 10일" */
 function formatKoreanDate(dateStr) {
     if (!dateStr) return "";
@@ -265,15 +273,33 @@ function renderCalendar(year, monthIndex) {
         const todaysEvents = events.filter((ev) => ev.date === dateKey);
 
         const dotWrapper = document.createElement("div");
+        dotWrapper.className = "calendar-event-dots";
+
         if (todaysEvents.length > 0) {
-            todaysEvents.slice(0, 2).forEach((ev) => {
+            cell.classList.add("has-events");
+
+            const firstType = todaysEvents[0].type;
+            const badge = document.createElement("span");
+            badge.className = "calendar-event-badge";
+            if (firstType === "trip") badge.classList.add("calendar-badge-trip");
+            else if (firstType === "event") badge.classList.add("calendar-badge-event");
+            else badge.classList.add("calendar-badge-dinner");
+
+            badge.textContent = todaysEvents.length > 99
+                ? "99+"
+                : todaysEvents.length;
+            cell.appendChild(badge);
+
+            todaysEvents.slice(0, 3).forEach((ev) => {
                 const dot = document.createElement("div");
                 dot.className = "calendar-event-dot";
-                if (ev.type === "trip") {
-                    dot.classList.add("calendar-event-trip");
-                } else {
-                    dot.classList.add("calendar-event-dinner");
-                }
+                const typeClass =
+                    ev.type === "trip"
+                        ? "calendar-event-trip"
+                        : ev.type === "event"
+                            ? "calendar-event-event"
+                            : "calendar-event-dinner";
+                dot.classList.add(typeClass);
                 dotWrapper.appendChild(dot);
             });
         }
@@ -293,25 +319,29 @@ function renderEventList() {
     if (!eventListEl) return;
 
     const events = loadEvents();
-    if (events.length === 0) {
+    const upcoming = events.filter((ev) => isUpcomingDate(ev.date));
+
+    if (upcoming.length === 0) {
         eventListEl.innerHTML = `
       <article class="event-item">
         <div class="event-dot event-type-dinner"></div>
         <div class="event-text">
-          <p class="event-title">등록된 가족 약속이 없어요.</p>
-          <p class="event-meta">오른쪽 상단 "약속 만들기" 버튼으로 첫 약속을 남겨보세요.</p>
+          <p class="event-title">다가오는 약속이 없어요.</p>
+          <p class="event-meta">오른쪽 상단 "약속 만들기" 버튼으로 새 약속을 남겨보세요.</p>
         </div>
       </article>
     `;
         return;
     }
 
-    const sorted = events.slice().sort((a, b) => {
+    const sorted = upcoming.slice().sort((a, b) => {
         if (a.date === b.date) return (a.time || "").localeCompare(b.time || "");
         return a.date.localeCompare(b.date);
     });
 
-    eventListEl.innerHTML = sorted
+    const limited = sorted.slice(0, 5);
+
+    eventListEl.innerHTML = limited
         .map((ev) => {
             const dateObj = parseDateKey(ev.date);
             const m = dateObj.getMonth() + 1;

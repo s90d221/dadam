@@ -651,7 +651,7 @@ async function handleCommentSubmit(e) {
 
     addNotification?.({
         type: "info",
-        message: "${voterName}님이 가족의 답변에 댓글을 남겼어요.",
+        message: `${voterName}님이 가족의 답변에 댓글을 남겼어요.`,
     });
 }
 

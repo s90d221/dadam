@@ -82,6 +82,7 @@ async function fetchJsonWithFallbacks(urls) {
 
 async function fetchQuestionByDate(dateKey) {
     const endpoints = [
+        `${API_BASE}/questions/by-date?date=${dateKey}`,
         `${API_BASE}/questions/history?date=${dateKey}`,
         `${API_BASE}/questions?date=${dateKey}`,
         `${API_BASE}/questions/date/${dateKey}`,
@@ -99,8 +100,8 @@ async function fetchAnswersForQuestion(questionId) {
     return res.json();
 }
 
-async function fetchCommentsForAnswer(questionId, answerId) {
-    const url = `${API_BASE}/questions/${questionId}/answers/${answerId}/comments`;
+async function fetchCommentsForAnswer(answerId) {
+    const url = `${API_BASE}/answers/${answerId}/comments`;
     try {
         const res = await fetch(url, {
             method: "GET",
@@ -230,7 +231,7 @@ async function loadArchiveForDate(dateKey) {
         if (question.id && Array.isArray(answers)) {
             const enriched = await Promise.all(
                 answers.map(async (ans) => {
-                    const comments = await fetchCommentsForAnswer(question.id, ans.id);
+                    const comments = await fetchCommentsForAnswer(ans.id);
                     return { ...ans, comments };
                 })
             );

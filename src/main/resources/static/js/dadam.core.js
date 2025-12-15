@@ -424,7 +424,7 @@ function renderNotifications() {
     showNotificationBadge(false);
 }
 
-function renderActivityList(limit = 5) {
+function renderActivityList(limit = 3) {
     const list = load(DADAM_KEYS.NOTIFICATIONS, []);
     const container = document.getElementById("activity-list");
     if (!container) return;
@@ -542,7 +542,8 @@ $("#open-profile")?.addEventListener("click", () => {
     }
 
     $("#profile-name-input").value = currentUser.name || "";
-    $("#profile-role-input").value = currentUser.role || "child";
+    $("#profile-role-input").value =
+        currentUser.familyRole || currentUser.role || "";
 
     const avatarWrapper = $("#profile-avatar-preview");
     if (avatarWrapper) {

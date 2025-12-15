@@ -191,7 +191,10 @@ function updateQuizVisuals() {
                 ? 0
                 : Math.round((votesForChoice.length / totalVotes) * 100);
 
-        if (bar) bar.style.width = percent + "%";
+        if (bar) {
+            bar.style.width = "100%";
+            bar.style.setProperty("--bar", percent + "%");
+        }
         if (percentSpan) percentSpan.textContent = percent + "%";
 
         if (avatarsBox) {
